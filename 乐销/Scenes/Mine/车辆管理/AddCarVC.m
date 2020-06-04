@@ -495,14 +495,14 @@
                      vehiclePhotoUrl:UnPackStr(model7.image.imageURL)
                 managementLicenseUrl:UnPackStr(model8.image.imageURL)
                             delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-                                [GlobalMethod showAlert:@"添加成功"];
-                                self.requestState = 1;
-                                [GB_Nav popViewControllerAnimated:true];
-
-                            } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-                                
-                            }];
-
+        [GlobalMethod showAlert:@"添加成功"];
+        self.requestState = 1;
+        [GB_Nav popViewControllerAnimated:true];
+        
+    } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+        
+    }];
+    
 }
 
 - (void)requestEdit{
@@ -517,15 +517,15 @@
     ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestEditCarWithVin:self.modelCarIdentityCode.subString
-                        engineNumber:self.modelMotorCode.subString
-                       vehicleNumber:self.modelCarNum.subString
-                         licenceType:1
-                            driverId:self.modelDriver.identifier
-                         driverPhone:self.modelDriverPhone.subString
-                        registerDate:0
-                           issueDate:0
-                               entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
-                       trailerNumber:self.modelHangCode.subString
+                         engineNumber:self.modelMotorCode.subString
+                        vehicleNumber:self.modelCarNum.subString
+                          licenceType:1
+                             driverId:self.modelDriver.identifier
+                          driverPhone:self.modelDriverPhone.subString
+                         registerDate:0
+                            issueDate:0
+                                entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
+                        trailerNumber:self.modelHangCode.subString
                        vehicleLicense:self.modelVehicleLicense.subString
                         vehicleLength:self.modelVehicleLength.identifier.doubleValue
                           vehicleType:self.modelVehicleType.identifier.doubleValue
@@ -542,14 +542,14 @@
              trailerGoodsInsuranceUrl:UnPackStr(model6.image.imageURL)
                       vehiclePhotoUrl:UnPackStr(model7.image.imageURL)
                  managementLicenseUrl:UnPackStr(model8.image.imageURL)
-                            delegate:self success:^(NSDictionary * _Nonnull response, id _Nonnull mark) {
-                                [GlobalMethod showAlert:@"提交成功"];
-                                self.requestState = 1;
-                                [GB_Nav popViewControllerAnimated:true];
-                               
-                            } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-                                
-                            }];
+                             delegate:self success:^(NSDictionary * _Nonnull response, id _Nonnull mark) {
+        [GlobalMethod showAlert:@"提交成功"];
+        self.requestState = 1;
+        [GB_Nav popViewControllerAnimated:true];
+        
+    } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+        
+    }];
 }
 - (void)requestDetail{
     if (!self.carID) {
@@ -559,8 +559,8 @@
         ModelCar * modelDetail = [ModelCar modelObjectWithDictionary:response];
         self.modelDetail = modelDetail;
         
-      
-       
+        
+        
         [self.bottomView resetViewWithAryModels:@[^(){
             ModelImage * model = [ModelImage new];
             model.desc = @"添加行驶证正面";
@@ -640,10 +640,10 @@
         //config info
         self.modelCarNum.subString = modelDetail.vehicleNumber;
         self.modelCarNum.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         self.modelHangCode.subString = modelDetail.trailerNumber;
         self.modelHangCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         self.modelDriver.subString = modelDetail.driverName;
         self.modelDriver.identifier = modelDetail.driverId?strDotF(modelDetail.driverId):nil;
         //解绑司机
@@ -666,24 +666,24 @@
         
         self.modelOwner.subString = modelDetail.vehicleOwner;
         self.modelOwner.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         self.modelCarIdentityCode.subString = modelDetail.vin;
         self.modelCarIdentityCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         self.modelMotorCode.subString = modelDetail.engineNumber;
         self.modelMotorCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         
         self.modelVehicleLicense.subString = modelDetail.vehicleLicense;
         self.modelVehicleLicense.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         
         self.modelVehicleLoad.subString = modelDetail.vehicleLoad? strDotF(modelDetail.vehicleLoad):nil;
         self.modelVehicleLoad.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         self.modelAxle.subString = modelDetail.axle?strDotF(modelDetail.axle):nil;
         self.modelAxle.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         //转化车辆长度
         self.modelVehicleLength.identifier = strDotF(modelDetail.vehicleLength);
         self.modelVehicleLength.subString = [AddCarVC exchangeVehicleLength:self.modelVehicleLength.identifier];
@@ -693,10 +693,10 @@
         self.modelVehicleType.identifier = strDotF(modelDetail.vehicleType);
         self.modelVehicleType.subString = [AddCarVC exchangeVehicleType:self.modelVehicleType.identifier];
         self.modelVehicleType.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-
+        
         
         [self configData];
-
+        
     } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
         
     }];

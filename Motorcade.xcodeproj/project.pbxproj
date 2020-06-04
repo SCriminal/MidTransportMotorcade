@@ -2598,6 +2598,7 @@
 		D2DB4DD922800844004454E3 /* 车辆管理 */ = {
 			isa = PBXGroup;
 			children = (
+				D2DB4DDE22800A82004454E3 /* AddDriverVC.h */,
 				D21B2FCA239673DC005B43D0 /* CarDetail */,
 				D2CD25C82283BF5E00A4E5F9 /* CarLocation */,
 				D2CD25AA228278F200A4E5F9 /* SelectCar */,
@@ -2616,7 +2617,6 @@
 		D2DB4DDD22800A74004454E3 /* 添加司机 */ = {
 			isa = PBXGroup;
 			children = (
-				D2DB4DDE22800A82004454E3 /* AddDriverVC.h */,
 				D2DB4DDF22800A82004454E3 /* AddDriverVC.m */,
 			);
 			path = "添加司机";
