@@ -19,7 +19,7 @@
 #import "RequestApi+UserApi.h"
 //example vc
 #import "AuthortiyExampleVC.h"
-
+#import "ManageMotorcadeVC.h"
 @interface PersonalCarOwnerAuthorityVC ()
 @property (nonatomic, strong) ModelBaseData *modelName;
 @property (nonatomic, strong) ModelBaseData *modelIdentityCode;
@@ -203,7 +203,7 @@
     ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
     ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
     ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:3];
-
+    
     if (!isStr(model0.image.imageURL)) {
         [GlobalMethod showAlert:@"请添加身份证人像面图片"];
         return;
@@ -221,42 +221,76 @@
         return;
     }
     
-    void (^blockSuccess)(NSDictionary * , id) = ^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-        BOOL isEnt = [GlobalData sharedInstance].GB_CompanyModel.isEnt;
-        [RequestApi requestCompanyDetailWithId:self.model.iDProperty delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-            NSMutableArray * ary = [NSMutableArray array];
-            if (isEnt) {
-                [GB_Nav popToRootViewControllerAnimated:true];
-                return ;
-            }
-            for (UIViewController * vc in GB_Nav.viewControllers) {
-                if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
-                    [ary addObject:vc];
-                    [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
-                    [GB_Nav setViewControllers:ary animated:true];
-                    [GlobalMethod showAlert:@"资料提交成功"];
-                    return;
-                }else{
-                    [ary addObject:vc];
-                }
-            }
-            [GlobalMethod clearUserInfo];
-            [GlobalMethod createRootNav];
-        } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-            
-        }];
-
-    };
     
     if (self.model.iDProperty) {//resubmit
-       [ RequestApi requestReAddSelfCompanyWithBusinesslicense:self.modelIdentityCode.subString name:self.modelName.subString idCardFrontUrl:UnPackStr(model0.image.imageURL) idCardNegativeUrl:UnPackStr(model1.image.imageURL) idCardHandheldUrl:UnPackStr(model2.image.imageURL)
-                                                            driverLicenseUrl:UnPackStr(model3.image.imageURL)
-                                                            id:self.model.iDProperty
-                                                      delegate:self
-                                                       success:blockSuccess failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
+        [ RequestApi requestReAddSelfCompanyWithBusinesslicense:self.modelIdentityCode.subString name:self.modelName.subString idCardFrontUrl:UnPackStr(model0.image.imageURL) idCardNegativeUrl:UnPackStr(model1.image.imageURL) idCardHandheldUrl:UnPackStr(model2.image.imageURL)
+                                               driverLicenseUrl:UnPackStr(model3.image.imageURL)
+                                                             id:self.model.iDProperty
+                                                       delegate:self
+                                                        success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+            BOOL isEnt = [GlobalData sharedInstance].GB_CompanyModel.isEnt;
+            [RequestApi requestCompanyDetailWithId:self.model.iDProperty delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                NSMutableArray * ary = [NSMutableArray array];
+                if (isEnt) {
+                    [GB_Nav popToRootViewControllerAnimated:true];
+                    return ;
+                }
+                for (UIViewController * vc in GB_Nav.viewControllers) {
+                    if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
+                        [ary addObject:vc];
+                        [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
+                        [GB_Nav setViewControllers:ary animated:true];
+                        [GlobalMethod showAlert:@"资料提交成功"];
+                        return;
+                    }else{
+                        [ary addObject:vc];
+                    }
+                }
+                [GlobalMethod clearUserInfo];
+                [GlobalMethod createRootNav];
+            } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                
+            }];
+            
+        } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
     }else{//create
         [RequestApi requestAddSelfCompanyWithBusinesslicense:self.modelIdentityCode.subString name:self.modelName.subString idCardFrontUrl:UnPackStr(model0.image.imageURL) idCardNegativeUrl:UnPackStr(model1.image.imageURL) idCardHandheldUrl:UnPackStr(model2.image.imageURL)                                driverLicenseUrl:UnPackStr(model3.image.imageURL)
- delegate:self success:blockSuccess failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
+                                                    delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+            [RequestApi requestCompanyListWithDelegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                NSArray * aryResponse = [GlobalMethod exchangeDic:response toAryWithModelName:@"ModelCompanyList"];
+                if (!isAry(aryResponse)) {
+                    [GB_Nav pushVCName:@"SelectCompanyTypeVC" animated:true];
+                }else if(aryResponse.count == 1){
+                    ModelCompanyList * modelLast = aryResponse.lastObject;
+                    [RequestApi requestCompanyDetailWithId:modelLast.entId delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                        NSMutableArray * ary = [NSMutableArray array];
+                        
+                        for (UIViewController * vc in GB_Nav.viewControllers) {
+                            if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
+                                [ary addObject:vc];
+                                [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
+                                [GB_Nav setViewControllers:ary animated:true];
+                                [GlobalMethod showAlert:@"资料提交成功"];
+                                return;
+                            }else{
+                                [ary addObject:vc];
+                            }
+                        }
+                        [GlobalMethod clearUserInfo];
+                        [GlobalMethod createRootNav];
+                    } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                        
+                    }];
+                    
+                }else{
+                    ManageMotorcadeVC * selectVC = [ManageMotorcadeVC new];
+                    selectVC.aryCompanyModels = aryResponse.mutableCopy;
+                    [GB_Nav pushViewController:selectVC animated:true];
+                }
+            } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                
+            }];
+        } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
     }
     
 }
@@ -280,7 +314,7 @@
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardFrontUrl"];
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证正"] url:nil];
-             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
+            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
@@ -288,7 +322,7 @@
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardNegativeUrl"];
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证反"] url:nil];
-             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
+            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
@@ -296,7 +330,7 @@
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardHandheldUrl"];
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
-             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
+            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
@@ -304,11 +338,11 @@
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"driverLicenseUrl"];
-             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
+            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
         }()]];
         [self.tableView reloadData];
-
+        
     } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
         
     }];

@@ -20,6 +20,8 @@
 #import "SelectDistrictView.h"
 //example vc
 #import "AuthortiyExampleVC.h"
+#import "ManageMotorcadeVC.h"
+
 @interface TransportCompanyAuthorityVC ()
 @property (nonatomic, strong) ModelBaseData *modelCompanyName;
 @property (nonatomic, strong) ModelBaseData *modelCreditCode;
@@ -361,31 +363,6 @@
         return;
     }
     
-    void (^blockSuccess)(NSDictionary * , id) = ^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-        BOOL isEnt = [GlobalData sharedInstance].GB_CompanyModel.isEnt;
-        [RequestApi requestCompanyDetailWithId:self.model.iDProperty delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-            if (isEnt) {
-                [GB_Nav popToRootViewControllerAnimated:true];
-                return ;
-            }
-            NSMutableArray * ary = [NSMutableArray array];
-            for (UIViewController * vc in GB_Nav.viewControllers) {
-                if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
-                    [ary addObject:vc];
-                    [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
-                    [GB_Nav setViewControllers:ary animated:true];
-                    [GlobalMethod showAlert:@"资料提交成功"];
-                    return;
-                }else{
-                    [ary addObject:vc];
-                }
-            }
-            [GlobalMethod clearUserInfo];
-            [GlobalMethod createRootNav];
-        } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-            
-        }];
-    };
     if (self.model.iDProperty) {//resubmit
         [RequestApi requestReAddTransportCompanyWithLogourl:model4.image.imageURL
                                           businessLicense:self.modelCreditCode.subString
@@ -401,7 +378,31 @@
                                           idCardNegativeUrl:UnPackStr(model3.image.imageURL)
                                        managementLicenseUrl:UnPackStr(model1.image.imageURL)
                                                          id:self.model.iDProperty
-                                                   delegate:self success:blockSuccess failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
+                                                   delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                                                       BOOL isEnt = [GlobalData sharedInstance].GB_CompanyModel.isEnt;
+                                                       [RequestApi requestCompanyDetailWithId:self.model.iDProperty delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                                                           if (isEnt) {
+                                                               [GB_Nav popToRootViewControllerAnimated:true];
+                                                               return ;
+                                                           }
+                                                           NSMutableArray * ary = [NSMutableArray array];
+                                                           for (UIViewController * vc in GB_Nav.viewControllers) {
+                                                               if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
+                                                                   [ary addObject:vc];
+                                                                   [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
+                                                                   [GB_Nav setViewControllers:ary animated:true];
+                                                                   [GlobalMethod showAlert:@"资料提交成功"];
+                                                                   return;
+                                                               }else{
+                                                                   [ary addObject:vc];
+                                                               }
+                                                           }
+                                                           [GlobalMethod clearUserInfo];
+                                                           [GlobalMethod createRootNav];
+                                                       } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                                                           
+                                                       }];
+                                                   } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
     }else{//create
         [RequestApi requestAddTransportCompanyWithLogourl:model4.image.imageURL
                                           businessLicense:self.modelCreditCode.subString
@@ -415,7 +416,42 @@
                                        businessLicenseUrl:UnPackStr(model0.image.imageURL)
                                            idCardFrontUrl:UnPackStr(model2.image.imageURL)
                                         idCardNegativeUrl:UnPackStr(model3.image.imageURL)
-                                     managementLicenseUrl:UnPackStr(model1.image.imageURL)                                         delegate:self success:blockSuccess failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
+                                     managementLicenseUrl:UnPackStr(model1.image.imageURL)                                         delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                                         [RequestApi requestCompanyListWithDelegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                                             NSArray * aryResponse = [GlobalMethod exchangeDic:response toAryWithModelName:@"ModelCompanyList"];
+                                             if (!isAry(aryResponse)) {
+                                                 [GB_Nav pushVCName:@"SelectCompanyTypeVC" animated:true];
+                                             }else if(aryResponse.count == 1){
+                                                 ModelCompanyList * modelLast = aryResponse.lastObject;
+                                                 [RequestApi requestCompanyDetailWithId:modelLast.entId delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+                                                     NSMutableArray * ary = [NSMutableArray array];
+                                                     
+                                                     for (UIViewController * vc in GB_Nav.viewControllers) {
+                                                         if ([vc isKindOfClass:NSClassFromString(@"LoginViewController")]) {
+                                                             [ary addObject:vc];
+                                                             [ary addObject:[NSClassFromString(@"AuthorityVerifyingVC") new]];
+                                                             [GB_Nav setViewControllers:ary animated:true];
+                                                             [GlobalMethod showAlert:@"资料提交成功"];
+                                                             return;
+                                                         }else{
+                                                             [ary addObject:vc];
+                                                         }
+                                                     }
+                                                     [GlobalMethod clearUserInfo];
+                                                     [GlobalMethod createRootNav];
+                                                 } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                                                     
+                                                 }];
+                                                 
+                                             }else{
+                                                 ManageMotorcadeVC * selectVC = [ManageMotorcadeVC new];
+                                                 selectVC.aryCompanyModels = aryResponse.mutableCopy;
+                                                 [GB_Nav pushViewController:selectVC animated:true];
+                                             }
+                                         } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
+                                             
+                                         }];
+                                     } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {}];
     }
 }
 
