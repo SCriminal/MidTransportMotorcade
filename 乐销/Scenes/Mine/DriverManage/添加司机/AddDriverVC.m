@@ -132,7 +132,7 @@
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加驾驶证";
+            model.desc = @"添加驾驶证主页";
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
             model.isEssential = true;
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
@@ -208,7 +208,7 @@
                 return model;
             }(),^(){
                 ModelBaseData * model = [ModelBaseData new];
-                model.string = @"驾驶证示例";
+                model.string = @"驾驶证主页示例";
                 model.imageName = @"authority_example_driverlicense";
                 return model;
             }()].mutableCopy;
@@ -283,7 +283,7 @@
         return;
     }
     if (!isStr(model3.image.imageURL)) {
-        [GlobalMethod showAlert:@"请添加驾驶证"];
+        [GlobalMethod showAlert:@"请添加驾驶证主页"];
         return;
     }
     
@@ -369,7 +369,7 @@
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加驾驶证";
+            model.desc = @"添加驾驶证主页";
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"driverLicenseUrl"];
