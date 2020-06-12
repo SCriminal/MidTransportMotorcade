@@ -76,9 +76,10 @@
     
     self.ivArrow.rightCenterY = XY(SCREEN_WIDTH - W(15), self.height/2.0);
     
+    CGFloat leftInterval = MAX(self.subTitleInterval, W(99));
     NSString * strPlace = self.model.isChangeInvalid?@"不可修改":model.placeHolderString;
-    [self.subTitle fitTitle:isStr(model.subString)?model.subString:strPlace variable:self.ivArrow.left - W(115)];
-    self.subTitle.leftCenterY = XY(W(99),self.height/2.0);
+    [self.subTitle fitTitle:isStr(model.subString)?model.subString:strPlace variable:self.ivArrow.left - leftInterval - W(15)];
+    self.subTitle.leftCenterY = XY(leftInterval,self.height/2.0);
     self.subTitle.textColor = isStr(model.subString)?COLOR_333:COLOR_999;
     if (self.model.isChangeInvalid) {
         self.subTitle.textColor = COLOR_999;

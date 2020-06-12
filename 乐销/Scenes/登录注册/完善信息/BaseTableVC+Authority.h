@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, ENUM_PERFECT_CELL_TYPE) {
 };
 
 @interface BaseTableVC (Authority)
-
+@property (nonatomic, assign) double subTitleInterval;
 - (void)registAuthorityCell;
 - (UITableViewCell *)dequeueAuthorityCell:(NSIndexPath *)indexPath;
 - (CGFloat)fetchAuthorityCellHeight:(NSIndexPath *)indexPath;

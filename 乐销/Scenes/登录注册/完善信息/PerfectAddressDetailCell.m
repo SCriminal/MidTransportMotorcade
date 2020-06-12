@@ -74,15 +74,14 @@
     //刷新view
     self.title.leftTop = XY(W(15),  W(25));
     
-    self.textView.leftTop = XY(W(99),self.title.top);
     self.textView.text = model.subString;
     [self resetCellWithoutTextView];
 }
 
 - (void)resetCellWithoutTextView{
-    
-    self.textView.leftTop = XY(W(99),self.title.top);
-    self.textView.width = SCREEN_WIDTH - W(99) - W(15);
+    CGFloat leftInterval = MAX(self.subTitleInterval, W(99));
+    self.textView.leftTop = XY(leftInterval,self.title.top);
+    self.textView.width = SCREEN_WIDTH - leftInterval - W(15);
     [self.textView changeLinesCallBlock:false];
     self.textView.height = MAX(self.textView.font.lineHeight , self.textView.numTextHeight);
     [self.textView changeLinesCallBlock:false];

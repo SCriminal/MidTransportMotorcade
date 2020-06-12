@@ -7,8 +7,24 @@
 //
 
 #import "BaseTableVC+Authority.h"
+static const char subTitleIntervalKey = '\0';
 
 @implementation BaseTableVC (Authority)
+
+
+#pragma mark 运行时
+-(void)setSubTitleInterval:(CGFloat)subTitleInterval
+{
+    objc_setAssociatedObject(self, &subTitleIntervalKey, [NSNumber numberWithFloat:subTitleInterval], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+-(CGFloat)subTitleInterval
+{
+    NSNumber * num = objc_getAssociatedObject(self, &subTitleIntervalKey);
+    if (num == nil || ![num isKindOfClass:[NSNumber class]]) {
+        return 0;
+    }
+    return [num floatValue];
+}
 
 - (void)registAuthorityCell{
     [self.tableView registerClass:[PerfectSelectCell class] forCellReuseIdentifier:@"PerfectSelectCell"];
@@ -23,6 +39,7 @@
         case ENUM_PERFECT_CELL_TEXT:
         {
             PerfectTextCell * textCell = [self.tableView dequeueReusableCellWithIdentifier:@"PerfectTextCell"];
+            textCell.subTitleInterval = self.subTitleInterval;
             [textCell resetCellWithModel:model];
             return textCell;
         }
@@ -30,6 +47,7 @@
         case ENUM_PERFECT_CELL_SELECT:
         {
             PerfectSelectCell * selectCell = [self.tableView dequeueReusableCellWithIdentifier:@"PerfectSelectCell"];
+            selectCell.subTitleInterval = self.subTitleInterval;
             [selectCell resetCellWithModel:model];
             return selectCell;
         }
@@ -37,6 +55,7 @@
         case ENUM_PERFECT_CELL_ADDRESS:
         {
             PerfectAddressDetailCell * addressCell = [self.tableView dequeueReusableCellWithIdentifier:@"PerfectAddressDetailCell"];
+            addressCell.subTitleInterval = self.subTitleInterval;
             [addressCell resetCellWithModel:model];
             return addressCell;
         }

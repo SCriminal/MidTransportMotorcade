@@ -16,7 +16,8 @@
 
 @property (strong, nonatomic) PlaceHolderTextView *textView;
 @property (strong, nonatomic) ModelBaseData *model;
-@property (nonatomic, strong) void (^blockHeightChange)();
+@property (nonatomic, strong) void (^blockHeightChange)(void);
+@property (nonatomic, assign) double subTitleInterval;
 
 #pragma mark 刷新view
 - (void)resetCellWithModel:(ModelBaseData *)model;

@@ -26,7 +26,8 @@
 #import "AliClient.h"
 //example vc
 #import "AuthortiyExampleVC.h"
-
+#import "SelectCarTypeVC.h"
+#import "SelectCarNumberView.h"
 @interface AddCarVC ()
 @property (nonatomic, strong) ModelBaseData *modelCarNum;
 @property (nonatomic, strong) ModelBaseData *modelHangCode;
@@ -34,13 +35,26 @@
 @property (nonatomic, strong) ModelBaseData *modelDriver;
 @property (nonatomic, strong) ModelBaseData *modelDriverPhone;
 @property (nonatomic, strong) ModelBaseData *modelCarIdentityCode;
-@property (nonatomic, strong) ModelBaseData *modelMotorCode;
+@property (nonatomic, strong) ModelBaseData *modelEngineCode;
 @property (nonatomic, strong) ModelBaseData *modelVehicleLicense;
+@property (nonatomic, strong) ModelBaseData *modelDrivingNumber;
 @property (nonatomic, strong) ModelBaseData *modelVehicleLength;
+@property (nonatomic, strong) ModelBaseData *modelVehicleWidth;
+@property (nonatomic, strong) ModelBaseData *modelVehicleHeight;
 @property (nonatomic, strong) ModelBaseData *modelVehicleType;
 @property (nonatomic, strong) ModelBaseData *modelVehicleLoad;
+@property (nonatomic, strong) ModelBaseData *modelAllQuality;
 @property (nonatomic, strong) ModelBaseData *modelAxle;
 @property (nonatomic, strong) ModelBaseData *modelUnbindDriver;
+@property (nonatomic, strong) ModelBaseData *modelLicenseType;
+@property (nonatomic, strong) ModelBaseData *modelCarModel;
+@property (nonatomic, strong) ModelBaseData *modelUsage;
+@property (nonatomic, strong) ModelBaseData *modelEnergyType;
+@property (nonatomic, strong) ModelBaseData *modelRoadTransportNum;
+@property (nonatomic, strong) ModelBaseData *modelAgency;
+@property (nonatomic, strong) ModelBaseData *modelDrivingResignDate;
+@property (nonatomic, strong) ModelBaseData *modelDrivingIssueDate;
+@property (nonatomic, strong) ModelBaseData *modelDrivingEndDate;
 
 @property (nonatomic, strong) AuthorityImageView *bottomView;
 @property (nonatomic, strong) ModelCar *modelDetail;
@@ -49,31 +63,52 @@
 @implementation AddCarVC
 
 #pragma mark lazy init
+- (ModelBaseData *)modelUnbindDriver{
+    if (!_modelUnbindDriver) {
+        _modelUnbindDriver = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_EMPTY;
+            model.imageName = @"";
+            model.string = @"基本信息";
+            model.subString = @"解绑司机";
+            return model;
+        }();
+    }
+    return _modelUnbindDriver;
+}
 - (ModelBaseData *)modelCarNum{
     if (!_modelCarNum) {
         _modelCarNum = ^(){
             ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
             model.imageName = @"";
             model.string = @"车牌号码";
-            model.placeHolderString = @"输入车牌号码(必填)";
+            model.placeHolderString = @"输入车牌号码";
+            model.isRequired = true;
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *item) {
+                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelCarNum.string]) {
+                        CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];
+                        if (CGRectGetMinY(rectOrigin)>SCREEN_HEIGHT/2.0) {
+                            [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+                        }
+                        break;
+                    }
+                }
+                
+                SelectCarNumberView * selectNumView = [SelectCarNumberView new];
+                [selectNumView resetViewWithContent:weakSelf.modelCarNum.subString];
+                [weakSelf.view addSubview:selectNumView];
+                selectNumView.blockSelected = ^(NSString *str) {
+                    weakSelf.modelCarNum.subString = str;
+                    [weakSelf.tableView reloadData];
+                };
+            };
             return model;
         }();
     }
     return _modelCarNum;
-}
-- (ModelBaseData *)modelVehicleLicense{
-    if (!_modelVehicleLicense) {
-        _modelVehicleLicense = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
-            model.imageName = @"";
-            model.string = @"行驶证号";
-            model.placeHolderString = @"输入行驶证号码(必填)";
-            return model;
-        }();
-    }
-    return _modelVehicleLicense;
 }
 - (ModelBaseData *)modelOwner{
     if (!_modelOwner) {
@@ -81,12 +116,202 @@
             ModelBaseData * model = [ModelBaseData new];
             model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
-            model.string = @"车所有人";
-            model.placeHolderString = @"输入行驶证上车辆所有人 (必填)";
+            model.string = @"车辆所有人";
+            model.placeHolderString = @"输入行驶证上车辆所有人";
+            model.isRequired = true;
             return model;
         }();
     }
     return _modelOwner;
+}
+- (ModelBaseData *)modelVehicleType{
+    if (!_modelVehicleType) {
+        WEAKSELF
+        _modelVehicleType = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"车辆类型";
+            model.placeHolderString = @"选择车辆类型";
+            model.isRequired = true;
+            model.blocClick = ^(ModelBaseData *modelClick) {
+                [GlobalMethod endEditing];
+                SelectCarTypeVC * selectVC = [SelectCarTypeVC new];
+                selectVC.blockSelected = ^(NSString *type, NSNumber *idNumber) {
+                    weakSelf.modelVehicleType.subString = type;
+                    weakSelf.modelVehicleType.identifier = idNumber.stringValue;
+                    [weakSelf.tableView reloadData];
+                };
+                [GB_Nav pushViewController:selectVC animated:true];
+            };
+            return model;
+        }();
+    }
+    return _modelVehicleType;
+}
+- (ModelBaseData *)modelVehicleLoad{
+    if (!_modelVehicleLoad) {
+        _modelVehicleLoad = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"核定载质量";
+            model.placeHolderString = @"选择核定载质量";
+            model.isRequired = true;
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *modelClick) {
+                [GlobalMethod endEditing];
+                ListAlertView * listNew = [ListAlertView new];
+                NSMutableArray * aryWeight = [NSMutableArray array];
+                for (int i = 0; i<55; i++) {
+                    [aryWeight addObject:[NSString stringWithFormat:@"%d吨",i+1]];
+                }
+                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelVehicleLoad.string]) {
+                        [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+                        [listNew showWithPoint:CGPointMake(W(15), NAVIGATIONBAR_HEIGHT + cell.height)  width:SCREEN_WIDTH - W(30) ary:aryWeight];
+                        listNew.alpha = 0;
+                        [UIView animateWithDuration:0.3 animations:^{
+                            listNew.alpha = 1;
+                        }];
+                        break;
+                    }
+                }
+                listNew.blockSelected = ^(NSInteger index) {
+                    weakSelf.modelVehicleLoad.subString = aryWeight[index];
+                    [weakSelf.tableView reloadData];
+                };
+            };
+            
+            return model;
+        }();
+    }
+    return _modelVehicleLoad;
+}
+- (ModelBaseData *)modelLicenseType{
+    if (!_modelLicenseType) {
+        WEAKSELF
+        _modelLicenseType = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"牌照类型";
+            model.placeHolderString = @"选择牌照类型";
+            model.blocClick = ^(ModelBaseData *modelClick) {
+                [GlobalMethod endEditing];
+                ListAlertView * listNew = [ListAlertView new];
+                NSString * strPath = [[NSBundle mainBundle]pathForResource:@"LicenseType" ofType:@"json"];
+                NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];
+                NSMutableArray * aryDateTypes = [NSMutableArray array];
+                NSMutableArray * aryDateId =[NSMutableArray array];
+                for (NSDictionary * dic in ary) {
+                    int status = [dic doubleValueForKey:@"status"];
+                    if (status != 0) {
+                        [aryDateTypes addObject:[dic stringValueForKey:@"label"]];
+                        [aryDateId addObject:[dic numberValueForKey:@"value"]];
+                    }
+                }
+                
+                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelLicenseType.string]) {
+                        [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+                        [listNew showWithPoint:CGPointMake(W(15), NAVIGATIONBAR_HEIGHT + cell.height)  width:SCREEN_WIDTH - W(30) ary:aryDateTypes];
+                        listNew.alpha = 0;
+                        [UIView animateWithDuration:0.3 animations:^{
+                            listNew.alpha = 1;
+                        }];
+                        break;
+                    }
+                }
+                listNew.blockSelected = ^(NSInteger index) {
+                    weakSelf.modelLicenseType.subString = aryDateTypes[index];
+                    weakSelf.modelLicenseType.identifier = [NSString stringWithFormat:@"%@", aryDateId[index]];
+                    [weakSelf.tableView reloadData];
+                };
+            };
+            
+            return model;
+        }();
+    }
+    return _modelLicenseType;
+}
+- (ModelBaseData *)modelVehicleLicense{
+    if (!_modelVehicleLicense) {
+        _modelVehicleLicense = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"拖车行驶证号";
+            model.placeHolderString = @"输入拖车行驶证号";
+            return model;
+        }();
+    }
+    return _modelVehicleLicense;
+}
+- (ModelBaseData *)modelAllQuality{
+    if (!_modelAllQuality) {
+        _modelAllQuality = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"车辆总质量";
+            model.placeHolderString = @"输入车辆总质量（kg）";
+            return model;
+        }();
+    }
+    return _modelAllQuality;
+}
+- (ModelBaseData *)modelAxle{
+    if (!_modelAxle) {
+        _modelAxle = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"车轴数";
+            model.placeHolderString = @"输入车轴数";
+            return model;
+        }();
+    }
+    return _modelAxle;
+}
+- (ModelBaseData *)modelHangCode{
+    if (!_modelHangCode) {
+        _modelHangCode = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"挂车号码";
+            model.placeHolderString = @"输入挂车号码";
+            return model;
+        }();
+    }
+    return _modelHangCode;
+}
+- (ModelBaseData *)modelEngineCode{
+    if (!_modelEngineCode) {
+        _modelEngineCode = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"发动机号";
+            model.placeHolderString = @"输入车辆发动机号";
+            return model;
+        }();
+    }
+    return _modelEngineCode;
+}
+- (ModelBaseData *)modelCarIdentityCode{
+    if (!_modelCarIdentityCode) {
+        _modelCarIdentityCode = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"识别代码";
+            model.placeHolderString = @"输入车辆识别代码";
+            return model;
+        }();
+    }
+    return _modelCarIdentityCode;
 }
 - (ModelBaseData *)modelDriver{
     if (!_modelDriver) {
@@ -130,96 +355,106 @@
     }
     return _modelDriverPhone;
 }
-- (ModelBaseData *)modelCarIdentityCode{
-    if (!_modelCarIdentityCode) {
-        _modelCarIdentityCode = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
-            model.imageName = @"";
-            model.string = @"识别代码";
-            model.placeHolderString = @"输入车辆识别代码";
-            return model;
-        }();
-    }
-    return _modelCarIdentityCode;
-}
-- (ModelBaseData *)modelMotorCode{
-    if (!_modelMotorCode) {
-        _modelMotorCode = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
-            model.imageName = @"";
-            model.string = @"发动机号";
-            model.placeHolderString = @"输入车辆发动机号";
-            return model;
-        }();
-    }
-    return _modelMotorCode;
-}
-- (ModelBaseData *)modelHangCode{
-    if (!_modelHangCode) {
-        _modelHangCode = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
-            model.imageName = @"";
-            model.string = @"挂车号码";
-            model.placeHolderString = @"输入挂车号码";
-            return model;
-        }();
-    }
-    return _modelHangCode;
-}
 - (ModelBaseData *)modelVehicleLength{
     if (!_modelVehicleLength) {
-        WEAKSELF
         _modelVehicleLength = ^(){
             ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
-            model.string = @"车辆长度";
-            model.placeHolderString = @"选择车辆长度(必选)";
-            model.blocClick = ^(ModelBaseData *modelClick) {
-                ListAlertView * listNew = [ListAlertView new];
-                NSArray * aryDateTypes = @[@"1.8米",@"2.7米",@"3.8米",@"4.2米",@"5米",@"6.2米",@"6.6米",@"6.8米",@"7.7米",@"7.8米",@"8.2米",@"8.7米",@"9.6米",@"11.7米",@"12.5米",@"13米",@"15米",@"16米",@"17.5米"];
-                NSArray * aryDateId = @[@6,@7,@8,@9,@10,@11,@2,@1,@12,@3,@13,@14,@4,@15,@16,@5,@17,@18,@19];
-                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
-                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelVehicleLength.string]) {
-                        [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
-                        [listNew showWithPoint:CGPointMake(W(15), NAVIGATIONBAR_HEIGHT + cell.height)  width:SCREEN_WIDTH - W(30) ary:aryDateTypes];
-                        listNew.alpha = 0;
-                        [UIView animateWithDuration:0.3 animations:^{
-                            listNew.alpha = 1;
-                        }];
-                        break;
-                    }
-                }
-                listNew.blockSelected = ^(NSInteger index) {
-                    weakSelf.modelVehicleLength.subString = aryDateTypes[index];
-                    weakSelf.modelVehicleLength.identifier = [NSString stringWithFormat:@"%@", aryDateId[index]];
-                    [weakSelf.tableView reloadData];
-                };
-            };
+            model.string = @"车长(mm)";
+            model.placeHolderString = @"输入车辆长度";
             return model;
         }();
     }
     return _modelVehicleLength;
 }
-
-- (ModelBaseData *)modelVehicleType{
-    if (!_modelVehicleType) {
-        WEAKSELF
-        _modelVehicleType = ^(){
+- (ModelBaseData *)modelVehicleWidth{
+    if (!_modelVehicleWidth) {
+        _modelVehicleWidth = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"车宽(mm)";
+            model.placeHolderString = @"输入车辆宽度";
+            return model;
+        }();
+    }
+    return _modelVehicleWidth;
+}
+- (ModelBaseData *)modelVehicleHeight{
+    if (!_modelVehicleHeight) {
+        _modelVehicleHeight = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"车高(mm)";
+            model.placeHolderString = @"输入车辆高度";
+            return model;
+        }();
+    }
+    return _modelVehicleHeight;
+}
+- (ModelBaseData *)modelDrivingNumber{
+    if (!_modelDrivingNumber) {
+        _modelDrivingNumber = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"档案编号";
+            model.placeHolderString = @"输入档案编号";
+            return model;
+        }();
+    }
+    return _modelDrivingNumber;
+}
+- (ModelBaseData *)modelCarModel{
+    if (!_modelCarModel) {
+        _modelCarModel = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"品牌型号";
+            model.placeHolderString = @"输入品牌型号";
+            return model;
+        }();
+    }
+    return _modelCarModel;
+}
+- (ModelBaseData *)modelUsage{
+    if (!_modelUsage) {
+        _modelUsage = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"使用性质";
+            model.placeHolderString = @"输入使用性质";
+            return model;
+        }();
+    }
+    return _modelUsage;
+}
+- (ModelBaseData *)modelEnergyType{
+    if (!_modelEnergyType) {
+        _modelEnergyType = ^(){
             ModelBaseData * model = [ModelBaseData new];
             model.enumType = ENUM_PERFECT_CELL_SELECT;
             model.imageName = @"";
-            model.string = @"车辆类型";
-            model.placeHolderString = @"选择车辆类型(必选)";
+            model.string = @"能源类型";
+            model.placeHolderString = @"选择能源类型";
+            WEAKSELF
             model.blocClick = ^(ModelBaseData *modelClick) {
+                [GlobalMethod endEditing];
                 ListAlertView * listNew = [ListAlertView new];
-                NSArray * aryDateTypes = @[@"普通货车",@"厢式货车",@"罐式货车",@"牵引车",@"普通挂车",@"罐式挂车",@"集装箱挂车",@"仓栅式货车",@"封闭货车",@"平板货车",@"集装箱车",@"自卸货车",@"特殊结构货车",@"专项作业车",@"厢式挂车",@"仓栅式挂车",@"平板挂车",@"自卸挂车",@"专项作业挂车",@"车辆运输车",@"车辆运输车（单排）"];
-                NSArray * aryDateId = @[@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21];
+                NSString * strPath = [[NSBundle mainBundle]pathForResource:@"EnergyType" ofType:@"json"];
+                NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];
+                NSMutableArray * aryDateTypes = [NSMutableArray array];
+                NSMutableArray * aryDateId =[NSMutableArray array];
+                for (NSDictionary * dic in ary) {
+                    [aryDateTypes addObject:[dic stringValueForKey:@"label"]];
+                    [aryDateId addObject:[dic numberValueForKey:@"value"]];
+                }
                 for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
-                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelVehicleType.string]) {
+                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelEnergyType.string]) {
                         [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
                         [listNew showWithPoint:CGPointMake(W(15), NAVIGATIONBAR_HEIGHT + cell.height)  width:SCREEN_WIDTH - W(30) ary:aryDateTypes];
                         listNew.alpha = 0;
@@ -230,42 +465,104 @@
                     }
                 }
                 listNew.blockSelected = ^(NSInteger index) {
-                    weakSelf.modelVehicleType.subString = aryDateTypes[index];
-                    weakSelf.modelVehicleType.identifier = [NSString stringWithFormat:@"%@", aryDateId[index]];
+                    weakSelf.modelEnergyType.subString = aryDateTypes[index];
+                    weakSelf.modelEnergyType.identifier = [NSString stringWithFormat:@"%@", aryDateId[index]];
                     [weakSelf.tableView reloadData];
                 };
             };
             return model;
         }();
     }
-    return _modelVehicleType;
+    return _modelEnergyType;
 }
-
-- (ModelBaseData *)modelVehicleLoad{
-    if (!_modelVehicleLoad) {
-        _modelVehicleLoad = ^(){
+- (ModelBaseData *)modelRoadTransportNum{
+    if (!_modelRoadTransportNum) {
+        _modelRoadTransportNum = ^(){
             ModelBaseData * model = [ModelBaseData new];
             model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
-            model.string = @"标准载重";
-            model.placeHolderString = @"输入标准载重:吨(必填)";
+            model.string = @"车辆道路运输证";
+            model.placeHolderString = @"输入车辆道路运输证";
             return model;
         }();
     }
-    return _modelVehicleLoad;
+    return _modelRoadTransportNum;
 }
-- (ModelBaseData *)modelAxle{
-    if (!_modelAxle) {
-        _modelAxle = ^(){
+- (ModelBaseData *)modelAgency{
+    if (!_modelAgency) {
+        _modelAgency = ^(){
             ModelBaseData * model = [ModelBaseData new];
             model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
-            model.string = @"车轴数";
-            model.placeHolderString = @"输入车轴数(必填)";
+            model.string = @"发证机关";
+            model.placeHolderString = @"输入发证机关";
             return model;
         }();
     }
-    return _modelAxle;
+    return _modelAgency;
+}
+- (ModelBaseData *)modelDrivingResignDate{
+    if (!_modelDrivingResignDate) {
+        _modelDrivingResignDate = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"行驶证注册日期";
+            model.placeHolderString = @"选择行驶证注册日期";
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *data) {
+                [GlobalMethod endEditing];
+                DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
+                    weakSelf.modelDrivingResignDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
+                [GB_Nav.lastVC.view addSubview:datePickerView];
+            };
+            return model;
+        }();
+    }
+    return _modelDrivingResignDate;
+}
+- (ModelBaseData *)modelDrivingIssueDate{
+    if (!_modelDrivingIssueDate) {
+        _modelDrivingIssueDate = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"行驶证发证日期";
+            model.placeHolderString = @"选择行驶证发证日期";
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *data) {
+                [GlobalMethod endEditing];
+                DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
+                    weakSelf.modelDrivingIssueDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
+                [GB_Nav.lastVC.view addSubview:datePickerView];
+            };
+            return model;
+        }();
+    }
+    return _modelDrivingIssueDate;
+}
+- (ModelBaseData *)modelDrivingEndDate{
+    if (!_modelDrivingEndDate) {
+        _modelDrivingEndDate = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"行驶证有效日期";
+            model.placeHolderString = @"选择行驶证有效日期";
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *data) {
+                [GlobalMethod endEditing];
+                DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
+                    weakSelf.modelDrivingEndDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
+                [GB_Nav.lastVC.view addSubview:datePickerView];
+            };
+            return model;
+        }();
+    }
+    return _modelDrivingEndDate;
 }
 - (AuthorityImageView *)bottomView{
     if (!_bottomView) {
@@ -311,7 +608,7 @@
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车箱货险保单";
+            model.desc = @"添加挂车货物险保单";
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
             return model;
@@ -327,28 +624,17 @@
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
             return model;
+        }(),^(){
+            ModelImage * model = [ModelImage new];
+            model.desc = @"行驶证检验页";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
+            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+            return model;
         }()]];
         
     }
     return _bottomView;
 }
-
-- (ModelBaseData *)modelUnbindDriver{
-    if (!_modelUnbindDriver) {
-        WEAKSELF
-        _modelUnbindDriver = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_EMPTY;
-            model.imageName = @"";
-            model.string = @"基本信息";
-            model.subString = @"解绑司机";
-            return model;
-        }();
-        
-    }
-    return _modelUnbindDriver;
-}
-
 
 #pragma mark view did load
 - (void)viewDidLoad {
@@ -360,6 +646,7 @@
     self.tableView.backgroundColor = COLOR_BACKGROUND;
     self.tableView.tableFooterView = self.bottomView;
     [self registAuthorityCell];
+    self.subTitleInterval = W(135);
     
     //config data
     [self configData];
@@ -383,7 +670,7 @@
 
 #pragma mark config data
 - (void)configData{
-    self.aryDatas = @[self.modelUnbindDriver,self.modelCarNum,self.modelVehicleLicense,self.modelOwner,self.modelDriver,self.modelDriverPhone,self.modelCarIdentityCode,self.modelMotorCode,self.modelHangCode,self.modelVehicleLength,self.modelVehicleType,self.modelVehicleLoad,self.modelAxle,^(){
+    self.aryDatas = @[self.modelUnbindDriver,self.modelCarNum,self.modelOwner,self.modelVehicleType,self.modelVehicleLoad,self.modelLicenseType,self.modelVehicleLicense,self.modelAllQuality,self.modelAxle,self.modelHangCode,self.modelEngineCode,self.modelCarIdentityCode,self.modelDriver,self.modelDriverPhone,self.modelVehicleLength,self.modelVehicleWidth,self.modelVehicleHeight,self.modelDrivingNumber,self.modelCarModel,self.modelUsage,self.modelEnergyType,self.modelRoadTransportNum,self.modelAgency,self.modelDrivingResignDate,self.modelDrivingIssueDate,self.modelDrivingEndDate,^(){
         ModelBaseData * model = [ModelBaseData new];
         model.enumType = ENUM_PERFECT_CELL_EMPTY;
         model.imageName = @"";
@@ -431,6 +718,11 @@
                 model.string = @"道路运输经营许可证示例";
                 model.imageName = @"运输许可证";
                 return model;
+            }(),^(){
+                ModelBaseData * model = [ModelBaseData new];
+                model.string = @"行驶证检验页示例";
+                model.imageName = @"检验页";
+                return model;
             }()].mutableCopy;
             [GB_Nav pushViewController:vc animated:true];
         };
@@ -472,7 +764,7 @@
     ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestAddCarWithVin:self.modelCarIdentityCode.subString
-                        engineNumber:self.modelMotorCode.subString
+                        engineNumber:self.modelEngineCode.subString
                        vehicleNumber:self.modelCarNum.subString
                          licenceType:1
                             driverId:self.modelDriver.identifier.doubleValue
@@ -517,7 +809,7 @@
     ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestEditCarWithVin:self.modelCarIdentityCode.subString
-                         engineNumber:self.modelMotorCode.subString
+                         engineNumber:self.modelEngineCode.subString
                         vehicleNumber:self.modelCarNum.subString
                           licenceType:1
                              driverId:self.modelDriver.identifier
@@ -670,8 +962,8 @@
         self.modelCarIdentityCode.subString = modelDetail.vin;
         self.modelCarIdentityCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
-        self.modelMotorCode.subString = modelDetail.engineNumber;
-        self.modelMotorCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        self.modelEngineCode.subString = modelDetail.engineNumber;
+        self.modelEngineCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
         
         self.modelVehicleLicense.subString = modelDetail.vehicleLicense;
@@ -715,14 +1007,34 @@
     return nil;
 }
 + (NSString *)exchangeVehicleType:(NSString *)identity{
-    NSArray * aryDateTypes = @[@"普通货车",@"厢式货车",@"罐式货车",@"牵引车",@"普通挂车",@"罐式挂车",@"集装箱挂车",@"仓栅式货车",@"封闭货车",@"平板货车",@"集装箱车",@"自卸货车",@"特殊结构货车",@"专项作业车",@"厢式挂车",@"仓栅式挂车",@"平板挂车",@"自卸挂车",@"专项作业挂车",@"车辆运输车",@"车辆运输车（单排）"];
-    NSArray * aryDateId = @[@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21];
-    for (int i = 0; i<aryDateId.count; i++) {
-        NSNumber * num = aryDateId[i];
-        if (num.doubleValue == identity.doubleValue) {
-            return aryDateTypes[i];
+    NSString * strPath = [[NSBundle mainBundle]pathForResource:@"CarType" ofType:@"json"];
+    NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];
+    for (NSDictionary * dic in ary) {
+        if (identity.doubleValue == [dic doubleValueForKey:@"value"]) {
+            return [dic stringValueForKey:@"label"];
         }
     }
     return nil;
 }
++ (NSString *)exchangeLicenseType:(NSString *)identity{
+    NSString * strPath = [[NSBundle mainBundle]pathForResource:@"LicenseType" ofType:@"json"];
+    NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];
+    for (NSDictionary * dic in ary) {
+        if (identity.doubleValue == [dic doubleValueForKey:@"value"]) {
+            return [dic stringValueForKey:@"label"];
+        }
+    }
+    return nil;
+}
++ (NSString *)exchangeEnergeyType:(NSString *)identity{
+    NSString * strPath = [[NSBundle mainBundle]pathForResource:@"EnergyType" ofType:@"json"];
+    NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];
+    for (NSDictionary * dic in ary) {
+        if (identity.doubleValue == [dic doubleValueForKey:@"value"]) {
+            return [dic stringValueForKey:@"label"];
+        }
+    }
+    return nil;
+}
+
 @end

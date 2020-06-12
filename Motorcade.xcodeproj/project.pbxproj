@@ -135,6 +135,13 @@
 		D2821CC1218AD9B90057688B /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = D2821CB8218AD9B80057688B /* point.png */; };
 		D2821CC2218AD9B90057688B /* point@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2821CB9218AD9B80057688B /* point@2x.png */; };
 		D2821CC3218AD9B90057688B /* point@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2821CBA218AD9B80057688B /* point@3x.png */; };
+		D284B2B924931FCC00E2605A /* SelectCarTypeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D284B2B824931FCC00E2605A /* SelectCarTypeVC.m */; };
+		D284B2BD2493204500E2605A /* CarType.json in Resources */ = {isa = PBXBuildFile; fileRef = D284B2BA2493204500E2605A /* CarType.json */; };
+		D284B2BE2493204500E2605A /* LicenseType.json in Resources */ = {isa = PBXBuildFile; fileRef = D284B2BB2493204500E2605A /* LicenseType.json */; };
+		D284B2BF2493204500E2605A /* EnergyType.json in Resources */ = {isa = PBXBuildFile; fileRef = D284B2BC2493204500E2605A /* EnergyType.json */; };
+		D284B2C324934D8A00E2605A /* SelectCarNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = D284B2C124934D8A00E2605A /* SelectCarNumberView.m */; };
+		D284B2C524934E3A00E2605A /* icon_cp_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D284B2C424934E3A00E2605A /* icon_cp_delete@2x.png */; };
+		D284B2C724934E5600E2605A /* icon_cp_keyBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D284B2C624934E5600E2605A /* icon_cp_keyBack@2x.png */; };
 		D285E2961E6D472F00DE9A6D /* NSDateFormatter+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = D285E2951E6D472F00DE9A6D /* NSDateFormatter+Category.m */; };
 		D285E2991E6D49E100DE9A6D /* NSDate+CategorySld.m in Sources */ = {isa = PBXBuildFile; fileRef = D285E2981E6D49E100DE9A6D /* NSDate+CategorySld.m */; };
 		D28642EB1E484A350041B64C /* UITapGestureRecognizer+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = D28642EA1E484A350041B64C /* UITapGestureRecognizer+Base.m */; };
@@ -610,6 +617,15 @@
 		D2821CB9218AD9B80057688B /* point@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "point@2x.png"; sourceTree = "<group>"; };
 		D2821CBA218AD9B80057688B /* point@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "point@3x.png"; sourceTree = "<group>"; };
 		D2821CBB218AD9B80057688B /* ORChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORChartView.h; sourceTree = "<group>"; };
+		D284B2B724931FCC00E2605A /* SelectCarTypeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCarTypeVC.h; sourceTree = "<group>"; };
+		D284B2B824931FCC00E2605A /* SelectCarTypeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCarTypeVC.m; sourceTree = "<group>"; };
+		D284B2BA2493204500E2605A /* CarType.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarType.json; sourceTree = "<group>"; };
+		D284B2BB2493204500E2605A /* LicenseType.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LicenseType.json; sourceTree = "<group>"; };
+		D284B2BC2493204500E2605A /* EnergyType.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EnergyType.json; sourceTree = "<group>"; };
+		D284B2C124934D8A00E2605A /* SelectCarNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCarNumberView.m; sourceTree = "<group>"; };
+		D284B2C224934D8A00E2605A /* SelectCarNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCarNumberView.h; sourceTree = "<group>"; };
+		D284B2C424934E3A00E2605A /* icon_cp_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_cp_delete@2x.png"; sourceTree = "<group>"; };
+		D284B2C624934E5600E2605A /* icon_cp_keyBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_cp_keyBack@2x.png"; sourceTree = "<group>"; };
 		D285E28C1E6CF65300DE9A6D /* ModelBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBaseDelegate.h; sourceTree = "<group>"; };
 		D285E2941E6D472F00DE9A6D /* NSDateFormatter+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Category.h"; sourceTree = "<group>"; };
 		D285E2951E6D472F00DE9A6D /* NSDateFormatter+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+Category.m"; sourceTree = "<group>"; };
@@ -1589,6 +1605,7 @@
 		D275DB181DFFA2E800670A40 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				D284B2C024934D8A00E2605A /* 自定义车牌键盘View */,
 				D27470B422A8B5B5009B645D /* LocationRecord */,
 				D2996A2C21E6E3AA00562587 /* 上传图片 */,
 				D2996A2821E6E2D800562587 /* CustomAttributeTextView */,
@@ -1793,6 +1810,26 @@
 				D2B5F40B2198187A0057E525 /* 设置 */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		D284B2B624931FCC00E2605A /* SelectCarTypeVC */ = {
+			isa = PBXGroup;
+			children = (
+				D284B2B724931FCC00E2605A /* SelectCarTypeVC.h */,
+				D284B2B824931FCC00E2605A /* SelectCarTypeVC.m */,
+			);
+			path = SelectCarTypeVC;
+			sourceTree = "<group>";
+		};
+		D284B2C024934D8A00E2605A /* 自定义车牌键盘View */ = {
+			isa = PBXGroup;
+			children = (
+				D284B2C624934E5600E2605A /* icon_cp_keyBack@2x.png */,
+				D284B2C424934E3A00E2605A /* icon_cp_delete@2x.png */,
+				D284B2C124934D8A00E2605A /* SelectCarNumberView.m */,
+				D284B2C224934D8A00E2605A /* SelectCarNumberView.h */,
+			);
+			path = "自定义车牌键盘View";
 			sourceTree = "<group>";
 		};
 		D28642E81E484A180041B64C /* BaseTapgesture */ = {
@@ -2598,12 +2635,15 @@
 		D2DB4DD922800844004454E3 /* 车辆管理 */ = {
 			isa = PBXGroup;
 			children = (
-				D2DB4DDE22800A82004454E3 /* AddDriverVC.h */,
+				D284B2B624931FCC00E2605A /* SelectCarTypeVC */,
 				D21B2FCA239673DC005B43D0 /* CarDetail */,
 				D2CD25C82283BF5E00A4E5F9 /* CarLocation */,
 				D2CD25AA228278F200A4E5F9 /* SelectCar */,
 				D2DB4DDA22800855004454E3 /* AddCarVC.h */,
 				D2DB4DDB22800855004454E3 /* AddCarVC.m */,
+				D284B2BA2493204500E2605A /* CarType.json */,
+				D284B2BC2493204500E2605A /* EnergyType.json */,
+				D284B2BB2493204500E2605A /* LicenseType.json */,
 				D2CD25B82282A2E500A4E5F9 /* ManageCarListVC.h */,
 				D2CD25B92282A2E500A4E5F9 /* ManageCarListVC.m */,
 				D2926FBB228AAB5C009FF40A /* CarFilterView.h */,
@@ -2617,6 +2657,7 @@
 		D2DB4DDD22800A74004454E3 /* 添加司机 */ = {
 			isa = PBXGroup;
 			children = (
+				D2DB4DDE22800A82004454E3 /* AddDriverVC.h */,
 				D2DB4DDF22800A82004454E3 /* AddDriverVC.m */,
 			);
 			path = "添加司机";
@@ -3046,6 +3087,7 @@
 				D2CF190C22548EF800542AEF /* HTMLResource.bundle in Resources */,
 				D2821CC0218AD9B90057688B /* circle.png in Resources */,
 				D25F55D92178801000FD4898 /* 闪屏.m4v in Resources */,
+				D284B2BE2493204500E2605A /* LicenseType.json in Resources */,
 				D2821CBE218AD9B90057688B /* circle@2x.png in Resources */,
 				D2FD667620D254930048D351 /* module.plist in Resources */,
 				DA8529041D65B63500AB04CC /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -3055,9 +3097,13 @@
 				D2821CC3218AD9B90057688B /* point@3x.png in Resources */,
 				D2821CC2218AD9B90057688B /* point@2x.png in Resources */,
 				D2821CBF218AD9B90057688B /* circle@3x.png in Resources */,
+				D284B2BD2493204500E2605A /* CarType.json in Resources */,
 				9CB5EBAF20F4FA1200EB22B4 /* Assets.xcassets in Resources */,
+				D284B2C524934E3A00E2605A /* icon_cp_delete@2x.png in Resources */,
 				D2F733B41E8642EE0008E561 /* LocalData.json in Resources */,
+				D284B2C724934E5600E2605A /* icon_cp_keyBack@2x.png in Resources */,
 				DAA3C9E71D668FF6009CFDF7 /* Images.xcassets in Resources */,
+				D284B2BF2493204500E2605A /* EnergyType.json in Resources */,
 				D2726BA721BE04DA006B626F /* AliyunEmasServices-Info.plist in Resources */,
 				DAAEC65E1E5E900E0034AED0 /* area.plist in Resources */,
 				D2BC9A871DFFA75600B0468E /* allCities.plist in Resources */,
@@ -3155,6 +3201,7 @@
 				C6BAD7051EDBCBF300954439 /* UIView+Category.m in Sources */,
 				D21B58D81FA6A5BF00B2A788 /* UIImage+info.m in Sources */,
 				D28642EB1E484A350041B64C /* UITapGestureRecognizer+Base.m in Sources */,
+				D284B2C324934D8A00E2605A /* SelectCarNumberView.m in Sources */,
 				D26A14A21E49C25700126F7A /* NSMutableDictionary+Category.m in Sources */,
 				D2DB4DD4227FE08D004454E3 /* AuthorityImageView.m in Sources */,
 				D21B2FD0239673F9005B43D0 /* CarDetailView.m in Sources */,
@@ -3241,6 +3288,7 @@
 				D2C99C341E0BA42F001D5DBA /* RadioBtnView.m in Sources */,
 				D2037605210719190054F8A6 /* ModelAliClient_Base.m in Sources */,
 				D2CD25B722827D1100A4E5F9 /* SelectDriverCell.m in Sources */,
+				D284B2B924931FCC00E2605A /* SelectCarTypeVC.m in Sources */,
 				D29C2DD122C310AD00BD2F64 /* ModelMsg.m in Sources */,
 				D2821CBC218AD9B90057688B /* ORChartView.m in Sources */,
 				D2CD25B422827CFD00A4E5F9 /* SelectDriverVC.m in Sources */,

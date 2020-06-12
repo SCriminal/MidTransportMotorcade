@@ -66,9 +66,9 @@
     self.title.leftCenterY = XY(W(15),self.height/2.0);
     self.title.textColor = self.model.isChangeInvalid?COLOR_999:COLOR_666;
 
-    
-    self.textField.widthHeight = XY(SCREEN_WIDTH - W(99) - W(15), [GlobalMethod fetchHeightFromFont:self.textField.font.pointSize]);
-    self.textField.leftCenterY = XY(W(99), self.title.centerY);
+    CGFloat leftInterval = MAX(self.subTitleInterval, W(99));
+    self.textField.widthHeight = XY(SCREEN_WIDTH - leftInterval - W(15), [GlobalMethod fetchHeightFromFont:self.textField.font.pointSize]);
+    self.textField.leftCenterY = XY(leftInterval, self.title.centerY);
     self.textField.text = model.subString;
     self.textField.textColor = model.isChangeInvalid?COLOR_999:COLOR_333;
     self.textField.userInteractionEnabled = !model.isChangeInvalid;

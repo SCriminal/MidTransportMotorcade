@@ -19,9 +19,10 @@
 @property (nonatomic, assign) NSInteger enumType;//enum
 @property (nonatomic, strong) NSString *imageName;//image name cell name
 @property (nonatomic, assign) BOOL isSelected;//isselelcted defatult no
-@property (nonatomic, assign) BOOL hideState;//hide default NO
-@property (nonatomic, assign) BOOL hideSubState;//hide default NO
-@property (nonatomic, assign) BOOL isChangeInvalid;//change invalid
+@property (nonatomic, assign) BOOL hideState;
+@property (nonatomic, assign) BOOL hideSubState;
+@property (nonatomic, assign) BOOL isChangeInvalid;
+@property (nonatomic, assign) BOOL isRequired;
 
 
 @property (nonatomic, strong) void (^blockValueChange)(ModelBaseData *);//block value change
