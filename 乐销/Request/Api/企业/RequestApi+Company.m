@@ -68,121 +68,97 @@
                           @"entId":NSNumber.dou(entId)};
     [self getUrl:@"/zhongcheyun/vehicle/1_0_10/{id}" delegate:delegate parameters:dic success:success failure:failure];
 }
+
 /**
- 新增车辆
- */
+提交我的车辆
+*/
 +(void)requestAddCarWithVin:(NSString *)vin
-               engineNumber:(NSString *)engineNumber
-              vehicleNumber:(NSString *)vehicleNumber
+                engineNumber:(NSString *)engineNumber
+                vehicleNumber:(NSString *)vehicleNumber
                 licenceType:(double)licenceType
-                   driverId:(double)driverId
-                driverPhone:(NSString *)driverPhone
-                      entId:(double)entId
-              trailerNumber:(NSString *)trailerNumber
-             vehicleLicense:(NSString *)vehicleLicense
-              vehicleLength:(double)vehicleLength
+                trailerNumber:(NSString *)trailerNumber
+                vehicleLicense:(NSString *)vehicleLicense
+                vehicleLength:(double)vehicleLength
                 vehicleType:(double)vehicleType
                 vehicleLoad:(double)vehicleLoad
-                       axle:(double)axle
-               vehicleOwner:(NSString *)vehicleOwner
-     drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
-  drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
-        vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
-vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
-        trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
-trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
-   trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
-            vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
-       managementLicenseUrl:(NSString *)managementLicenseUrl
-                   delegate:(id <RequestDelegate>)delegate
-                    success:(void (^)(NSDictionary * response, id mark))success
-                    failure:(void (^)(NSString * errorStr, id mark))failure{
-    NSDictionary *dic = @{@"vin":RequestStrKey(vin),
-                          @"engineNumber":RequestStrKey(engineNumber),
-                          @"vehicleNumber":RequestStrKey(vehicleNumber),
-                          @"licenceType":NSNumber.dou(licenceType),
-                          @"driverId":NSNumber.dou(driverId),
-                          @"driverPhone":RequestStrKey(driverPhone),
-                          @"entId":NSNumber.dou(entId),
-                          @"trailerNumber":RequestStrKey(trailerNumber),
-                          @"vehicleLicense":RequestStrKey(vehicleLicense),
-                          @"vehicleLength":NSNumber.dou(vehicleLength),
-                          @"vehicleType":NSNumber.dou(vehicleType),
-                          @"vehicleLoad":NSNumber.dou(vehicleLoad),
-                          @"axle":NSNumber.dou(axle),
-                          @"vehicleOwner":RequestStrKey(vehicleOwner),
-                          @"drivingLicenseFrontUrl":RequestStrKey(drivingLicenseFrontUrl),
-                          @"drivingLicenseNegativeUrl":RequestStrKey(drivingLicenseNegativeUrl),
-                          @"vehicleInsuranceUrl":RequestStrKey(vehicleInsuranceUrl),
-                          @"vehicleTripartiteInsuranceUrl":RequestStrKey(vehicleTripartiteInsuranceUrl),
-                          @"trailerInsuranceUrl":RequestStrKey(trailerInsuranceUrl),
-                          @"trailerTripartiteInsuranceUrl":RequestStrKey(trailerTripartiteInsuranceUrl),
-                          @"trailerGoodsInsuranceUrl":RequestStrKey(trailerGoodsInsuranceUrl),
-                          @"vehiclePhotoUrl":RequestStrKey(vehiclePhotoUrl),
-                          @"managementLicenseUrl":RequestStrKey(managementLicenseUrl),
-                          };
-    [self postUrl:@"/zhongcheyun/vehicle/1_0_10" delegate:delegate parameters:dic success:success failure:failure];
-}
-/**
- 编辑车辆
- */
-+(void)requestEditCarWithVin:(NSString *)vin
-                engineNumber:(NSString *)engineNumber
-               vehicleNumber:(NSString *)vehicleNumber
-                 licenceType:(double)licenceType
-                    driverId:(NSString *)driverId
-                 driverPhone:(NSString *)driverPhone
-                registerDate:(double)registerDate
-                   issueDate:(double)issueDate
-                       entId:(double)entId
-               trailerNumber:(NSString *)trailerNumber
-              vehicleLicense:(NSString *)vehicleLicense
-               vehicleLength:(double)vehicleLength
-                 vehicleType:(double)vehicleType
-                 vehicleLoad:(double)vehicleLoad
-                        axle:(double)axle
-                          id:(double)identity
+                axle:(double)axle
                 vehicleOwner:(NSString *)vehicleOwner
-      drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
-   drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
-         vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
-vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
-         trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
-trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
-    trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
-             vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
-        managementLicenseUrl:(NSString *)managementLicenseUrl
-                    delegate:(id <RequestDelegate>)delegate
-                     success:(void (^)(NSDictionary * response, id mark))success
-                     failure:(void (^)(NSString * errorStr, id mark))failure{
-    NSDictionary *dic = @{@"vin":RequestStrKey(vin),
-                          @"engineNumber":RequestStrKey(engineNumber),
-                          @"vehicleNumber":RequestStrKey(vehicleNumber),
-                          @"licenceType":NSNumber.dou(licenceType),
-                          @"driverId":RequestStrKey(driverId),
-                          @"driverPhone":RequestStrKey(driverPhone),
-                          @"registerDate":NSNumber.dou(registerDate),
-                          @"issueDate":NSNumber.dou(issueDate),
-                          @"entId":NSNumber.dou(entId),
-                          @"trailerNumber":RequestStrKey(trailerNumber),
-                          @"vehicleLicense":RequestStrKey(vehicleLicense),
-                          @"vehicleLength":NSNumber.dou(vehicleLength),
-                          @"vehicleType":NSNumber.dou(vehicleType),
-                          @"vehicleLoad":NSNumber.dou(vehicleLoad),
-                          @"axle":NSNumber.dou(axle),
-                          @"id":NSNumber.dou(identity),
-                          @"vehicleOwner":RequestStrKey(vehicleOwner),
-                          @"drivingLicenseFrontUrl":RequestStrKey(drivingLicenseFrontUrl),
-                          @"drivingLicenseNegativeUrl":RequestStrKey(drivingLicenseNegativeUrl),
-                          @"vehicleInsuranceUrl":RequestStrKey(vehicleInsuranceUrl),
-                          @"vehicleTripartiteInsuranceUrl":RequestStrKey(vehicleTripartiteInsuranceUrl),
-                          @"trailerInsuranceUrl":RequestStrKey(trailerInsuranceUrl),
-                          @"trailerTripartiteInsuranceUrl":RequestStrKey(trailerTripartiteInsuranceUrl),
-                          @"trailerGoodsInsuranceUrl":RequestStrKey(trailerGoodsInsuranceUrl),
-                          @"vehiclePhotoUrl":RequestStrKey(vehiclePhotoUrl),
-                          @"managementLicenseUrl":RequestStrKey(managementLicenseUrl),
-                          };
-    [self patchUrl:@"/zhongcheyun/vehicle/1_0_10/{id}" delegate:delegate parameters:dic success:success failure:failure];
+                drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
+                drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
+                vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
+                vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
+                trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
+                trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
+                trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
+                vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
+                managementLicenseUrl:(NSString *)managementLicenseUrl
+                length:(double)length
+                weight:(double)weight
+                height:(double)height
+                grossMass:(double)grossMass
+                drivingNumber:(NSString *)drivingNumber
+                model:(NSString *)model
+                useCharacter:(NSString *)useCharacter
+                energyType:(double)energyType
+                roadTransportNumber:(NSString *)roadTransportNumber
+                drivingAgency:(NSString *)drivingAgency
+                drivingRegisterDate:(double)drivingRegisterDate
+                drivingIssueDate:(double)drivingIssueDate
+                drivingEndDate:(double)drivingEndDate
+                driving2NegativeUrl:(NSString *)driving2NegativeUrl
+                   identity:(double)identity
+                      entId:(double)entId
+   driverId:(double)driverId
+driverPhone:(NSString *)driverPhone
+                delegate:(id <RequestDelegate>)delegate
+                success:(void (^)(NSDictionary * response, id mark))success
+                failure:(void (^)(NSString * errorStr, id mark))failure{
+        NSDictionary *dic = @{@"vin":RequestStrKey(vin),
+                           @"engineNumber":RequestStrKey(engineNumber),
+                           @"vehicleNumber":RequestStrKey(vehicleNumber),
+                           @"licenceType":RequestLongKey(licenceType),
+                           @"trailerNumber":RequestStrKey(trailerNumber),
+                           @"vehicleLicense":RequestStrKey(vehicleLicense),
+                           @"vehicleType":RequestLongKey(vehicleType),
+                           @"vehicleLoad":NSNumber.dou(vehicleLoad),
+                           @"axle":NSNumber.dou(axle),
+                           @"vehicleOwner":RequestStrKey(vehicleOwner),
+                           @"drivingLicenseFrontUrl":RequestStrKey(drivingLicenseFrontUrl),
+                           @"drivingLicenseNegativeUrl":RequestStrKey(drivingLicenseNegativeUrl),
+                           @"vehicleInsuranceUrl":RequestStrKey(vehicleInsuranceUrl),
+                           @"vehicleTripartiteInsuranceUrl":RequestStrKey(vehicleTripartiteInsuranceUrl),
+                           @"trailerInsuranceUrl":RequestStrKey(trailerInsuranceUrl),
+                           @"trailerTripartiteInsuranceUrl":RequestStrKey(trailerTripartiteInsuranceUrl),
+                           @"trailerGoodsInsuranceUrl":RequestStrKey(trailerGoodsInsuranceUrl),
+                           @"vehiclePhotoUrl":RequestStrKey(vehiclePhotoUrl),
+                           @"managementLicenseUrl":RequestStrKey(managementLicenseUrl),
+                           @"length":NSNumber.dou(length),
+                           @"weight":NSNumber.dou(weight),
+                           @"height":NSNumber.dou(height),
+                           @"grossMass":NSNumber.dou(grossMass),
+                           @"drivingNumber":RequestStrKey(drivingNumber),
+                           @"model":RequestStrKey(model),
+                           @"useCharacter":RequestStrKey(useCharacter),
+                           @"energyType":RequestLongKey(energyType),
+                           @"roadTransportNumber":RequestStrKey(roadTransportNumber),
+                           @"drivingAgency":RequestStrKey(drivingAgency),
+                           @"drivingRegisterDate":RequestLongKey(drivingRegisterDate),
+                           @"drivingIssueDate":RequestLongKey(drivingIssueDate),
+                           @"drivingEndDate":RequestLongKey(drivingEndDate),
+                           @"driving2NegativeUrl":RequestStrKey(driving2NegativeUrl),
+                              @"id":RequestLongKey(identity),
+                              @"entId":RequestLongKey(entId),
+                              @"vehicleLength":@0,
+                              @"driverId":NSNumber.dou(driverId),
+                              @"driverPhone":RequestStrKey(driverPhone),
+
+        };
+        if(identity){
+            [self patchUrl:@"/zhongcheyun/vehicle/1_0_10/{id}" delegate:delegate parameters:dic success:success failure:failure];
+        }else{
+            [self postUrl:@"/zhongcheyun/vehicle/1_0_10" delegate:delegate parameters:dic success:success failure:failure];
+        }
+    
 }
 /**
  提交车辆

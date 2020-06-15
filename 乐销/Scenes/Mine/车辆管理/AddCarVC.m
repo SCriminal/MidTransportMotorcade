@@ -197,6 +197,7 @@
             model.imageName = @"";
             model.string = @"牌照类型";
             model.placeHolderString = @"选择牌照类型";
+            model.isRequired = true;
             model.blocClick = ^(ModelBaseData *modelClick) {
                 [GlobalMethod endEditing];
                 ListAlertView * listNew = [ListAlertView new];
@@ -278,10 +279,30 @@
     if (!_modelHangCode) {
         _modelHangCode = ^(){
             ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
             model.imageName = @"";
             model.string = @"挂车号码";
             model.placeHolderString = @"输入挂车号码";
+            WEAKSELF
+            model.blocClick = ^(ModelBaseData *item) {
+                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelHangCode.string]) {
+                        CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];
+                        if (CGRectGetMinY(rectOrigin)>SCREEN_HEIGHT/2.0) {
+                            [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+                        }
+                        break;
+                    }
+                }
+                
+                SelectCarNumberView * selectNumView = [SelectCarNumberView new];
+                [selectNumView resetViewWithContent:weakSelf.modelHangCode.subString];
+                [weakSelf.view addSubview:selectNumView];
+                selectNumView.blockSelected = ^(NSString *str) {
+                    weakSelf.modelHangCode.subString = str;
+                    [weakSelf.tableView reloadData];
+                };
+            };
             return model;
         }();
     }
@@ -514,6 +535,7 @@
                 [GlobalMethod endEditing];
                 DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
                     weakSelf.modelDrivingResignDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                    [weakSelf.tableView reloadData];
                 } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
                 [GB_Nav.lastVC.view addSubview:datePickerView];
             };
@@ -535,6 +557,7 @@
                 [GlobalMethod endEditing];
                 DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
                     weakSelf.modelDrivingIssueDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                    [weakSelf.tableView reloadData];
                 } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
                 [GB_Nav.lastVC.view addSubview:datePickerView];
             };
@@ -556,6 +579,7 @@
                 [GlobalMethod endEditing];
                 DatePicker * datePickerView = [DatePicker initWithMinDate:[GlobalMethod exchangeStringToDate:@"1900" formatter:@"yyyy"] dateSelectBlock:^(NSDate *date) {
                     weakSelf.modelDrivingEndDate.subString =  [GlobalMethod exchangeDate:date formatter:TIME_DAY_SHOW];
+                    [weakSelf.tableView reloadData];
                 } type:ENUM_PICKER_DATE_YEAR_MONTH_DAY];
                 [GB_Nav.lastVC.view addSubview:datePickerView];
             };
@@ -567,71 +591,7 @@
 - (AuthorityImageView *)bottomView{
     if (!_bottomView) {
         _bottomView = [AuthorityImageView new];
-        [_bottomView resetViewWithAryModels:@[^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证主页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证副页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证反"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加车辆交强险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加车辆三者险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车交强险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车三者险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车货物险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证机动车相片页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加道路运输许可证";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"行驶证检验页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }()]];
-        
+        [self refreshBottomView:nil];
     }
     return _bottomView;
 }
@@ -662,7 +622,7 @@
 - (void)addNav{
     WEAKSELF
     BaseNavView *nav = [BaseNavView initNavBackTitle:self.carID?@"编辑车辆":@"添加车辆" rightTitle:@"提交" rightBlock:^{
-        weakSelf.carID?[weakSelf requestEdit]:[weakSelf requestAdd];
+        [weakSelf requestAdd];
     }];
     [nav configBlackBackStyle];
     [self.view addSubview:nav];
@@ -762,14 +722,12 @@
     ModelImage * model6 = [self.bottomView.aryDatas objectAtIndex:6];
     ModelImage * model7 = [self.bottomView.aryDatas objectAtIndex:7];
     ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
+    ModelImage * model9 = [self.bottomView.aryDatas objectAtIndex:9];
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestAddCarWithVin:self.modelCarIdentityCode.subString
                         engineNumber:self.modelEngineCode.subString
                        vehicleNumber:self.modelCarNum.subString
-                         licenceType:1
-                            driverId:self.modelDriver.identifier.doubleValue
-                         driverPhone:self.modelDriverPhone.subString
-                               entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
+                         licenceType:self.modelLicenseType.identifier.doubleValue
                        trailerNumber:self.modelHangCode.subString
                       vehicleLicense:self.modelVehicleLicense.subString
                        vehicleLength:self.modelVehicleLength.identifier.doubleValue
@@ -786,8 +744,27 @@
             trailerGoodsInsuranceUrl:UnPackStr(model6.image.imageURL)
                      vehiclePhotoUrl:UnPackStr(model7.image.imageURL)
                 managementLicenseUrl:UnPackStr(model8.image.imageURL)
-                            delegate:self success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-        [GlobalMethod showAlert:@"添加成功"];
+                              length:self.modelVehicleLength.subString.doubleValue
+                              weight:self.modelVehicleWidth.subString.doubleValue
+                              height:self.modelVehicleHeight.subString.doubleValue
+                           grossMass:self.modelAllQuality.subString.doubleValue
+                       drivingNumber:self.modelDrivingNumber.subString
+                               model:self.modelCarModel.subString
+                        useCharacter:self.modelUsage.subString
+                          energyType:self.modelEnergyType.identifier.doubleValue
+                 roadTransportNumber:self.modelRoadTransportNum.subString
+                       drivingAgency:self.modelAgency.subString
+                 drivingRegisterDate:isStr(self.modelDrivingResignDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingResignDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
+                    drivingIssueDate:isStr(self.modelDrivingIssueDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingIssueDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
+                      drivingEndDate:isStr(self.modelDrivingEndDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingEndDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
+                 driving2NegativeUrl:UnPackStr(model9.image.imageURL)
+                            identity:self.carID
+                               entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
+                            driverId:self.modelDriver.identifier.doubleValue
+                         driverPhone:self.modelDriverPhone.subString
+                            delegate:self
+                             success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
+        [GlobalMethod showAlert:@"提交成功"];
         self.requestState = 1;
         [GB_Nav popViewControllerAnimated:true];
         
@@ -797,52 +774,6 @@
     
 }
 
-- (void)requestEdit{
-    ModelImage * model0 = [self.bottomView.aryDatas objectAtIndex:0];
-    ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
-    ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
-    ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:3];
-    ModelImage * model4 = [self.bottomView.aryDatas objectAtIndex:4];
-    ModelImage * model5 = [self.bottomView.aryDatas objectAtIndex:5];
-    ModelImage * model6 = [self.bottomView.aryDatas objectAtIndex:6];
-    ModelImage * model7 = [self.bottomView.aryDatas objectAtIndex:7];
-    ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
-    self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
-    [RequestApi requestEditCarWithVin:self.modelCarIdentityCode.subString
-                         engineNumber:self.modelEngineCode.subString
-                        vehicleNumber:self.modelCarNum.subString
-                          licenceType:1
-                             driverId:self.modelDriver.identifier
-                          driverPhone:self.modelDriverPhone.subString
-                         registerDate:0
-                            issueDate:0
-                                entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
-                        trailerNumber:self.modelHangCode.subString
-                       vehicleLicense:self.modelVehicleLicense.subString
-                        vehicleLength:self.modelVehicleLength.identifier.doubleValue
-                          vehicleType:self.modelVehicleType.identifier.doubleValue
-                          vehicleLoad:self.modelVehicleLoad.subString.doubleValue
-                                 axle:self.modelAxle.subString.doubleValue
-                                   id:self.carID
-                         vehicleOwner:self.modelOwner.subString
-               drivingLicenseFrontUrl:UnPackStr(model0.image.imageURL)
-            drivingLicenseNegativeUrl:UnPackStr(model1.image.imageURL)
-                  vehicleInsuranceUrl:UnPackStr(model2.image.imageURL)
-        vehicleTripartiteInsuranceUrl:UnPackStr(model3.image.imageURL)
-                  trailerInsuranceUrl:UnPackStr(model4.image.imageURL)
-        trailerTripartiteInsuranceUrl:UnPackStr(model5.image.imageURL)
-             trailerGoodsInsuranceUrl:UnPackStr(model6.image.imageURL)
-                      vehiclePhotoUrl:UnPackStr(model7.image.imageURL)
-                 managementLicenseUrl:UnPackStr(model8.image.imageURL)
-                             delegate:self success:^(NSDictionary * _Nonnull response, id _Nonnull mark) {
-        [GlobalMethod showAlert:@"提交成功"];
-        self.requestState = 1;
-        [GB_Nav popViewControllerAnimated:true];
-        
-    } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-        
-    }];
-}
 - (void)requestDetail{
     if (!self.carID) {
         return;
@@ -851,93 +782,23 @@
         ModelCar * modelDetail = [ModelCar modelObjectWithDictionary:response];
         self.modelDetail = modelDetail;
         
-        
-        
-        [self.bottomView resetViewWithAryModels:@[^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证主页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
-            model.url = modelDetail.drivingLicenseFrontUrl;
-            model.isEssential = true;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证副页";
-            model.isEssential = true;
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证反"] url:nil];
-            model.url = modelDetail.drivingLicenseNegativeUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加车辆交强险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.isEssential = true;
-            model.url = modelDetail.vehicleInsuranceUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加车辆三者险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.url = modelDetail.vehicleTripartiteInsuranceUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车交强险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.url = modelDetail.trailerInsuranceUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车三者险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.url = modelDetail.trailerTripartiteInsuranceUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加挂车箱货险保单";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-            model.url = modelDetail.trailerGoodsInsuranceUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加行驶证机动车相片页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:nil];
-            model.url = modelDetail.vehiclePhotoUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加道路运输许可证";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
-            model.url = modelDetail.managementLicenseUrl;
-            model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-            model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-            return model;
-        }()]];
+        [self refreshBottomView:modelDetail];
         //config info
+        //change invalid
         self.modelCarNum.subString = modelDetail.vehicleNumber;
         self.modelCarNum.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
-        self.modelHangCode.subString = modelDetail.trailerNumber;
-        self.modelHangCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        self.modelOwner.subString = modelDetail.vehicleOwner;
+        self.modelOwner.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
-        self.modelDriver.subString = modelDetail.driverName;
-        self.modelDriver.identifier = modelDetail.driverId?strDotF(modelDetail.driverId):nil;
+        self.modelVehicleLicense.subString = modelDetail.vehicleLicense;
+        self.modelVehicleLicense.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        
+        //转化车辆类型
+        self.modelVehicleType.identifier = NSNumber.dou(modelDetail.vehicleType).stringValue;
+        self.modelVehicleType.subString = [AddCarVC exchangeVehicleType:self.modelVehicleType.identifier];
+        self.modelVehicleType.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        
         //解绑司机
         WEAKSELF
         self.modelUnbindDriver.isSelected = modelDetail.driverId;
@@ -949,42 +810,39 @@
                 weakSelf.modelDriver.identifier = 0;
                 weakSelf.modelDriverPhone.subString = nil;
                 [weakSelf configData];
-                [weakSelf requestEdit];
+                [weakSelf requestAdd];
             };
             [BaseAlertView initWithTitle:@"提示" content:@"确认解绑司机？" aryBtnModels:@[modelDismiss,modelConfirm] viewShow:weakSelf.view];
         }:nil;
         
+        self.modelLicenseType.subString = [AddCarVC exchangeLicenseType:NSNumber.dou(modelDetail.licenceType).stringValue];
+        self.modelLicenseType.identifier = NSNumber.dou(modelDetail.licenceType).stringValue;
+        
+        self.modelAllQuality.subString = NSNumber.dou(modelDetail.grossMass).stringValue;
+        
+        self.modelHangCode.subString = modelDetail.trailerNumber;
+        
+        self.modelDriver.subString = modelDetail.driverName;
+        self.modelDriver.identifier = modelDetail.driverId?strDotF(modelDetail.driverId):nil;
+        
         self.modelDriverPhone.subString = modelDetail.driverPhone;
-        
-        self.modelOwner.subString = modelDetail.vehicleOwner;
-        self.modelOwner.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
         self.modelCarIdentityCode.subString = modelDetail.vin;
-        self.modelCarIdentityCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
         self.modelEngineCode.subString = modelDetail.engineNumber;
-        self.modelEngineCode.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
-        
-        self.modelVehicleLicense.subString = modelDetail.vehicleLicense;
-        self.modelVehicleLicense.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
-        
         self.modelVehicleLoad.subString = modelDetail.vehicleLoad? strDotF(modelDetail.vehicleLoad):nil;
-        self.modelVehicleLoad.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
-        self.modelAxle.subString = modelDetail.axle?strDotF(modelDetail.axle):nil;
-        self.modelAxle.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
-        //转化车辆长度
-        self.modelVehicleLength.identifier = strDotF(modelDetail.vehicleLength);
-        self.modelVehicleLength.subString = [AddCarVC exchangeVehicleLength:self.modelVehicleLength.identifier];
-        self.modelVehicleLength.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
-        
-        //转化车辆类型
-        self.modelVehicleType.identifier = strDotF(modelDetail.vehicleType);
-        self.modelVehicleType.subString = [AddCarVC exchangeVehicleType:self.modelVehicleType.identifier];
-        self.modelVehicleType.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        self.modelAxle.subString = modelDetail.axle?NSNumber.dou(modelDetail.axle).stringValue:nil;
+        self.modelVehicleLength.subString = NSNumber.dou(modelDetail.length).stringValue;
+        self.modelVehicleWidth.subString = NSNumber.dou(modelDetail.weight).stringValue;
+        self.modelVehicleHeight.subString = NSNumber.dou(modelDetail.height).stringValue;
+        self.modelDrivingNumber.subString = modelDetail.drivingNumber;
+        self.modelCarModel.subString = modelDetail.model;
+        self.modelUsage.subString = modelDetail.useCharacter;
+        self.modelEnergyType.subString = [AddCarVC exchangeEnergeyType:NSNumber.dou(modelDetail.energyType).stringValue];
+        self.modelEnergyType.identifier = NSNumber.dou(modelDetail.energyType).stringValue;
+        self.modelRoadTransportNum.subString = modelDetail.roadTransportNumber;
+        self.modelAgency.subString = modelDetail.drivingAgency;
+        self.modelDrivingResignDate.subString = modelDetail.drivingRegisterDate?[GlobalMethod exchangeDate:[NSDate dateWithTimeIntervalSince1970:modelDetail.drivingRegisterDate] formatter:TIME_DAY_SHOW]:nil;
+        self.modelDrivingIssueDate.subString = modelDetail.drivingIssueDate?[GlobalMethod exchangeDate:[NSDate dateWithTimeIntervalSince1970:modelDetail.drivingIssueDate] formatter:TIME_DAY_SHOW]:nil;
+        self.modelDrivingEndDate.subString = modelDetail.drivingEndDate?[GlobalMethod exchangeDate:[NSDate dateWithTimeIntervalSince1970:modelDetail.drivingEndDate] formatter:TIME_DAY_SHOW]:nil;
         
         
         [self configData];
@@ -993,19 +851,87 @@
         
     }];
 }
-
-#pragma mark exchange type
-+ (NSString *)exchangeVehicleLength:(NSString *)identity{
-    NSArray * aryDateTypes = @[@"1.8米",@"2.7米",@"3.8米",@"4.2米",@"5米",@"6.2米",@"6.6米",@"6.8米",@"7.7米",@"7.8米",@"8.2米",@"8.7米",@"9.6米",@"11.7米",@"12.5米",@"13米",@"15米",@"16米",@"17.5米"];
-    NSArray * aryDateId = @[@6,@7,@8,@9,@10,@11,@2,@1,@12,@3,@13,@14,@4,@15,@16,@5,@17,@18,@19];
-    for (int i = 0; i<aryDateId.count; i++) {
-        NSNumber * num = aryDateId[i];
-        if (num.doubleValue == identity.doubleValue) {
-            return aryDateTypes[i];
-        }
-    }
-    return nil;
+- (void)refreshBottomView:(ModelCar *)modelDetail{
+//    WEAKSELF
+    [self.bottomView resetViewWithAryModels:@[^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加行驶证主页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
+        model.url = modelDetail.drivingLicenseFrontUrl;
+        model.isEssential = true;
+        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加行驶证副页";
+        model.isEssential = true;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证反"] url:nil];
+        model.url = modelDetail.drivingLicenseNegativeUrl;
+        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加车辆交强险保单";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
+        model.isEssential = true;
+        model.url = modelDetail.vehicleInsuranceUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加车辆三者险保单";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
+        model.url = modelDetail.vehicleTripartiteInsuranceUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加挂车交强险保单";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
+        model.url = modelDetail.trailerInsuranceUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加挂车三者险保单";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
+        model.url = modelDetail.trailerTripartiteInsuranceUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加挂车箱货险保单";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
+        model.url = modelDetail.trailerGoodsInsuranceUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加行驶证机动车相片页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:nil];
+        model.url = modelDetail.vehiclePhotoUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加道路运输许可证";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
+        model.url = modelDetail.managementLicenseUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"行驶证检验页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
+        model.isEssential = true;
+        model.url = modelDetail.driving2NegativeUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }()]];
 }
+#pragma mark exchange type
 + (NSString *)exchangeVehicleType:(NSString *)identity{
     NSString * strPath = [[NSBundle mainBundle]pathForResource:@"CarType" ofType:@"json"];
     NSArray * ary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:strPath] options:0 error:nil];

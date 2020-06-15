@@ -13,6 +13,7 @@
 @interface PerfectAddressDetailCell : UITableViewCell
 //属性
 @property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *essential;
 
 @property (strong, nonatomic) PlaceHolderTextView *textView;
 @property (strong, nonatomic) ModelBaseData *model;

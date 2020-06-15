@@ -21,61 +21,143 @@
     //重置视图坐标
     CGFloat bottom =  [DriverDetailView addDetailSubView:@[^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"行驶证号";
-        model.subTitle = modelDetail.vehicleLicense;
-        return model;
-    }(),^(){
-        ModelBtn * model = [ModelBtn new];
         model.title = @"当前状态";
         model.subTitle = modelDetail.authStatusShow;
         model.color = modelDetail.authStatusColorShow;
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"车所有人";
-        model.subTitle = modelDetail.vehicleOwner;
-        return model;
-    }(),^(){
-        ModelBtn * model = [ModelBtn new];
         model.title = @"关联司机";
-        model.subTitle = [NSString stringWithFormat:@"%@ %@",modelDetail.driverName,modelDetail.driverPhone];
+        
+        model.subTitle =isStr(modelDetail.driverName)||isStr(modelDetail.driverPhone)? [NSString stringWithFormat:@"%@ %@",modelDetail.driverName,modelDetail.driverPhone]:@"暂无关联司机";
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"识别代码";
-        model.subTitle = modelDetail.vin;
+        model.title = @"核定载质量";
+        model.subTitle = modelDetail.vehicleLoad?[strDotF(modelDetail.vehicleLoad) stringByAppendingString:@"吨"]:@"暂无";
+        
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"发动机号";
-        model.subTitle = modelDetail.engineNumber;
-        return model;
-    }(),^(){
-        ModelBtn * model = [ModelBtn new];
-        model.title = @"挂车号码";
-        model.subTitle = modelDetail.trailerNumber;
-        return model;
-    }(),^(){
-        ModelBtn * model = [ModelBtn new];
-        model.title = @"车辆长度";
-        model.subTitle = [NSString stringWithFormat:@"%@",[AddCarVC exchangeVehicleLength:strDotF(modelDetail.vehicleLength)]];
+        model.title = @"车拥有人";
+        model.subTitle = modelDetail.vehicleOwner;
+        
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
         model.title = @"车辆类型";
         model.subTitle = [AddCarVC exchangeVehicleType:strDotF(modelDetail.vehicleType)];
+        
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"标准载重";
-        model.subTitle = [NSString stringWithFormat:@"%@吨",strDotF(modelDetail.vehicleLoad)];
+        model.title = @"牌照类型";
+        model.subTitle = [AddCarVC exchangeLicenseType:strDotF(modelDetail.licenceType)];
+        
+        return model;
+    }(),
+                                                            //                                        ^(){
+                                                            //            ModelBtn * model = [ModelBtn new];
+                                                            //            model.title = @"车长";
+                                                            //            model.subTitle =modelDetail.vehicleLength?[AddCarVC exchangeVehicleLength:strDotF(modelDetail.vehicleLength)]:@"暂无";
+                                                            //            return model;
+                                                            //        }(),
+                                                            ^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"档案编号";
+        model.subTitle = modelDetail.drivingNumber;
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"运输证号";
+        model.subTitle = modelDetail.roadTransportNumber;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"总质量";
+        model.subTitle = modelDetail.grossMass?[NSNumber.dou(modelDetail.grossMass).stringValue stringByAppendingString:@"kg"]:@"暂无";
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"车辆长度";
+        NSString * strLength = modelDetail.length?[NSNumber.dou(modelDetail.length).stringValue stringByAppendingString:@"mm "]:@"";
+        NSString * strWidth = modelDetail.weight?[NSNumber.dou(modelDetail.weight).stringValue stringByAppendingString:@"mm "]:@"";
+        NSString * strHeight = modelDetail.height?[NSNumber.dou(modelDetail.height).stringValue stringByAppendingString:@"mm"]:@"";
+        
+        NSString * strAll = [NSString stringWithFormat:@"%@%@%@",strLength,strWidth,strHeight];
+        model.subTitle = (modelDetail.length==0&&modelDetail.weight==0&&modelDetail.height==0)?@"暂无":strAll;
+        
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
         model.title = @"车轴数";
-        model.subTitle = strDotF(modelDetail.axle);
+        model.subTitle = modelDetail.axle?NSNumber.dou(modelDetail.axle).stringValue:@"暂无";
         return model;
-    }(),] inView:self title:modelDetail.vehicleNumber];
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"识别代码";
+        model.subTitle = modelDetail.vin;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"发动机号";
+        model.subTitle = modelDetail.engineNumber;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"品牌型号";
+        model.subTitle = modelDetail.model;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"使用性质";
+        model.subTitle = modelDetail.useCharacter;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"能源类型";
+        model.subTitle = [AddCarVC exchangeEnergeyType:strDotF(modelDetail.energyType)];
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"挂车号码";
+        model.subTitle = modelDetail.trailerNumber;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"拖车行驶证号";
+        model.subTitle = modelDetail.vehicleLicense;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"发证机关";
+        model.subTitle = modelDetail.drivingAgency;
+        
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"注册日期";
+        model.subTitle = [GlobalMethod exchangeTimeWithStamp:modelDetail.drivingRegisterDate andFormatter:TIME_DAY_SHOW];
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"发证日期";
+        model.subTitle = [GlobalMethod exchangeTimeWithStamp:modelDetail.drivingIssueDate andFormatter:TIME_DAY_SHOW];
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"有效日期";
+        model.subTitle = [GlobalMethod exchangeTimeWithStamp:modelDetail.drivingEndDate andFormatter:TIME_DAY_SHOW];
+        return model;
+    }()] inView:self title:modelDetail.vehicleNumber];
     //设置总高度
     self.height = [self addLineFrame:CGRectMake(W(15), bottom, SCREEN_WIDTH - W(30), 1)];
 }

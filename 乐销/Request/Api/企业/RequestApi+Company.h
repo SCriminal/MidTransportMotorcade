@@ -50,66 +50,49 @@ NS_ASSUME_NONNULL_BEGIN
                       success:(void (^)(NSDictionary * response, id mark))success
                       failure:(void (^)(NSString * errorStr, id mark))failure;
 /**
- 新增车辆
- */
+提交我的车辆
+*/
 +(void)requestAddCarWithVin:(NSString *)vin
-               engineNumber:(NSString *)engineNumber
-              vehicleNumber:(NSString *)vehicleNumber
+                engineNumber:(NSString *)engineNumber
+                vehicleNumber:(NSString *)vehicleNumber
                 licenceType:(double)licenceType
-                   driverId:(double)driverId
-                driverPhone:(NSString *)driverPhone
-                      entId:(double)entId
-              trailerNumber:(NSString *)trailerNumber
-             vehicleLicense:(NSString *)vehicleLicense
-              vehicleLength:(double)vehicleLength
+                trailerNumber:(NSString *)trailerNumber
+                vehicleLicense:(NSString *)vehicleLicense
+                vehicleLength:(double)vehicleLength
                 vehicleType:(double)vehicleType
                 vehicleLoad:(double)vehicleLoad
-                       axle:(double)axle
-               vehicleOwner:(NSString *)vehicleOwner
-     drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
-  drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
-        vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
-vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
-        trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
-trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
-   trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
-            vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
-       managementLicenseUrl:(NSString *)managementLicenseUrl
-                   delegate:(id <RequestDelegate>)delegate
-                    success:(void (^)(NSDictionary * response, id mark))success
-                    failure:(void (^)(NSString * errorStr, id mark))failure;
-/**
- 编辑车辆
- */
-+(void)requestEditCarWithVin:(NSString *)vin
-                engineNumber:(NSString *)engineNumber
-               vehicleNumber:(NSString *)vehicleNumber
-                 licenceType:(double)licenceType
-                    driverId:(NSString *)driverId
-                 driverPhone:(NSString *)driverPhone
-                registerDate:(double)registerDate
-                   issueDate:(double)issueDate
-                       entId:(double)entId
-               trailerNumber:(NSString *)trailerNumber
-              vehicleLicense:(NSString *)vehicleLicense
-               vehicleLength:(double)vehicleLength
-                 vehicleType:(double)vehicleType
-                 vehicleLoad:(double)vehicleLoad
-                        axle:(double)axle
-                          id:(double)identity
+                axle:(double)axle
                 vehicleOwner:(NSString *)vehicleOwner
-      drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
-   drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
-         vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
-vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
-         trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
-trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
-    trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
-             vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
-        managementLicenseUrl:(NSString *)managementLicenseUrl
-                    delegate:(id <RequestDelegate>)delegate
-                     success:(void (^)(NSDictionary * response, id mark))success
-                     failure:(void (^)(NSString * errorStr, id mark))failure;
+                drivingLicenseFrontUrl:(NSString *)drivingLicenseFrontUrl
+                drivingLicenseNegativeUrl:(NSString *)drivingLicenseNegativeUrl
+                vehicleInsuranceUrl:(NSString *)vehicleInsuranceUrl
+                vehicleTripartiteInsuranceUrl:(NSString *)vehicleTripartiteInsuranceUrl
+                trailerInsuranceUrl:(NSString *)trailerInsuranceUrl
+                trailerTripartiteInsuranceUrl:(NSString *)trailerTripartiteInsuranceUrl
+                trailerGoodsInsuranceUrl:(NSString *)trailerGoodsInsuranceUrl
+                vehiclePhotoUrl:(NSString *)vehiclePhotoUrl
+                managementLicenseUrl:(NSString *)managementLicenseUrl
+                length:(double)length
+                weight:(double)weight
+                height:(double)height
+                grossMass:(double)grossMass
+                drivingNumber:(NSString *)drivingNumber
+                model:(NSString *)model
+                useCharacter:(NSString *)useCharacter
+                energyType:(double)energyType
+                roadTransportNumber:(NSString *)roadTransportNumber
+                drivingAgency:(NSString *)drivingAgency
+                drivingRegisterDate:(double)drivingRegisterDate
+                drivingIssueDate:(double)drivingIssueDate
+                drivingEndDate:(double)drivingEndDate
+                driving2NegativeUrl:(NSString *)driving2NegativeUrl
+                   identity:(double)identity
+entId:(double)entId
+   driverId:(double)driverId
+driverPhone:(NSString *)driverPhone
+                delegate:(id <RequestDelegate>)delegate
+                success:(void (^)(NSDictionary * response, id mark))success
+                    failure:(void (^)(NSString * errorStr, id mark))failure;
 /**
  车辆列表
  */

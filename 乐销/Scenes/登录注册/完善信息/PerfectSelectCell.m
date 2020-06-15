@@ -43,6 +43,15 @@
     }
     return _ivArrow;
 }
+- (UILabel *)essential{
+    if (_essential == nil) {
+        _essential = [UILabel new];
+        _essential.textColor = [UIColor redColor];
+        _essential.font =  [UIFont systemFontOfSize:F(16) weight:UIFontWeightRegular];
+        [_essential fitTitle:@"*" variable:0];
+    }
+    return _essential;
+}
 
 #pragma mark 初始化
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -54,6 +63,7 @@
         [self.contentView addSubview:self.title];
         [self.contentView addSubview:self.subTitle];
         [self.contentView addSubview:self.ivArrow];
+        [self.contentView addSubview:self.essential];
         [self.contentView addTarget:self action:@selector(cellClick)];
     }
     return self;
@@ -73,6 +83,9 @@
     [self.title fitTitle:model.string variable:0];
     self.title.leftCenterY = XY(W(15),self.height/2.0);
     self.title.textColor = self.model.isChangeInvalid?COLOR_999:COLOR_666;
+    
+    self.essential.rightCenterY = XY(self.title.left-W(2), self.title.centerY);
+    self.essential.hidden = !model.isRequired;
     
     self.ivArrow.rightCenterY = XY(SCREEN_WIDTH - W(15), self.height/2.0);
     

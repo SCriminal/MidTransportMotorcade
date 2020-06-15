@@ -20,7 +20,15 @@
     }
     return _title;
 }
-
+- (UILabel *)essential{
+    if (_essential == nil) {
+        _essential = [UILabel new];
+        _essential.textColor = [UIColor redColor];
+        _essential.font =  [UIFont systemFontOfSize:F(16) weight:UIFontWeightRegular];
+        [_essential fitTitle:@"*" variable:0];
+    }
+    return _essential;
+}
 
 - (PlaceHolderTextView *)textView{
     if (_textView == nil) {
@@ -60,6 +68,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:self.title];
         [self.contentView addSubview:self.textView];
+        [self.contentView addSubview:self.essential];
         //初始化页面
         [self resetCellWithModel:nil];
     }
@@ -74,6 +83,9 @@
     //刷新view
     self.title.leftTop = XY(W(15),  W(25));
     
+    self.essential.rightCenterY = XY(self.title.left-W(2), self.title.centerY);
+    self.essential.hidden = !model.isRequired;
+
     self.textView.text = model.subString;
     [self resetCellWithoutTextView];
 }

@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UITextField *textField;
+@property (strong, nonatomic) UILabel *essential;
+
 @property (nonatomic, strong) ModelBaseData *model;
 @property (nonatomic, assign) double subTitleInterval;
 
