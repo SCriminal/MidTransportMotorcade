@@ -36,7 +36,6 @@
 @property (nonatomic, strong) ModelBaseData *modelDriverPhone;
 @property (nonatomic, strong) ModelBaseData *modelCarIdentityCode;
 @property (nonatomic, strong) ModelBaseData *modelEngineCode;
-@property (nonatomic, strong) ModelBaseData *modelVehicleLicense;
 @property (nonatomic, strong) ModelBaseData *modelDrivingNumber;
 @property (nonatomic, strong) ModelBaseData *modelVehicleLength;
 @property (nonatomic, strong) ModelBaseData *modelVehicleWidth;
@@ -236,19 +235,7 @@
     }
     return _modelLicenseType;
 }
-- (ModelBaseData *)modelVehicleLicense{
-    if (!_modelVehicleLicense) {
-        _modelVehicleLicense = ^(){
-            ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_TEXT;
-            model.imageName = @"";
-            model.string = @"拖车行驶证号";
-            model.placeHolderString = @"输入拖车行驶证号";
-            return model;
-        }();
-    }
-    return _modelVehicleLicense;
-}
+
 - (ModelBaseData *)modelAllQuality{
     if (!_modelAllQuality) {
         _modelAllQuality = ^(){
@@ -630,7 +617,7 @@
 
 #pragma mark config data
 - (void)configData{
-    self.aryDatas = @[self.modelUnbindDriver,self.modelCarNum,self.modelOwner,self.modelVehicleType,self.modelVehicleLoad,self.modelLicenseType,self.modelVehicleLicense,self.modelAllQuality,self.modelAxle,self.modelHangCode,self.modelEngineCode,self.modelCarIdentityCode,self.modelDriver,self.modelDriverPhone,self.modelVehicleLength,self.modelVehicleWidth,self.modelVehicleHeight,self.modelDrivingNumber,self.modelCarModel,self.modelUsage,self.modelEnergyType,self.modelRoadTransportNum,self.modelAgency,self.modelDrivingResignDate,self.modelDrivingIssueDate,self.modelDrivingEndDate,^(){
+    self.aryDatas = @[self.modelUnbindDriver,self.modelCarNum,self.modelOwner,self.modelVehicleType,self.modelVehicleLoad,self.modelLicenseType,self.modelDrivingNumber,self.modelAllQuality,self.modelAxle,self.modelHangCode,self.modelEngineCode,self.modelCarIdentityCode,self.modelDriver,self.modelDriverPhone,self.modelVehicleLength,self.modelVehicleWidth,self.modelVehicleHeight,self.modelCarModel,self.modelUsage,self.modelEnergyType,self.modelRoadTransportNum,self.modelAgency,self.modelDrivingResignDate,self.modelDrivingIssueDate,self.modelDrivingEndDate,^(){
         ModelBaseData * model = [ModelBaseData new];
         model.enumType = ENUM_PERFECT_CELL_EMPTY;
         model.imageName = @"";
@@ -729,7 +716,7 @@
                        vehicleNumber:self.modelCarNum.subString
                          licenceType:self.modelLicenseType.identifier.doubleValue
                        trailerNumber:self.modelHangCode.subString
-                      vehicleLicense:self.modelVehicleLicense.subString
+                      vehicleLicense:nil
                        vehicleLength:self.modelVehicleLength.identifier.doubleValue
                          vehicleType:self.modelVehicleType.identifier.doubleValue
                          vehicleLoad:self.modelVehicleLoad.subString.doubleValue
@@ -791,8 +778,8 @@
         self.modelOwner.subString = modelDetail.vehicleOwner;
         self.modelOwner.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
-        self.modelVehicleLicense.subString = modelDetail.vehicleLicense;
-        self.modelVehicleLicense.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        self.modelDrivingNumber.subString = modelDetail.drivingNumber;
+        self.modelDrivingNumber.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
         //转化车辆类型
         self.modelVehicleType.identifier = NSNumber.dou(modelDetail.vehicleType).stringValue;
@@ -833,7 +820,6 @@
         self.modelVehicleLength.subString = NSNumber.dou(modelDetail.length).stringValue;
         self.modelVehicleWidth.subString = NSNumber.dou(modelDetail.weight).stringValue;
         self.modelVehicleHeight.subString = NSNumber.dou(modelDetail.height).stringValue;
-        self.modelDrivingNumber.subString = modelDetail.drivingNumber;
         self.modelCarModel.subString = modelDetail.model;
         self.modelUsage.subString = modelDetail.useCharacter;
         self.modelEnergyType.subString = [AddCarVC exchangeEnergeyType:NSNumber.dou(modelDetail.energyType).stringValue];

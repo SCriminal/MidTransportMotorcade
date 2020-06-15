@@ -132,12 +132,6 @@
         return model;
     }(),^(){
         ModelBtn * model = [ModelBtn new];
-        model.title = @"拖车行驶证号";
-        model.subTitle = modelDetail.vehicleLicense;
-        
-        return model;
-    }(),^(){
-        ModelBtn * model = [ModelBtn new];
         model.title = @"发证机关";
         model.subTitle = modelDetail.drivingAgency;
         
