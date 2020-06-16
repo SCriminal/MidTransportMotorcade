@@ -247,11 +247,16 @@ driverPhone:(NSString *)driverPhone
                    idCardBackUrl:(NSString *)idCardBackUrl
                 driverLicenseUrl:(NSString *)driverLicenseUrl
                  idCardHandelUrl:(NSString *)idCardHandelUrl
+                        identity:(double)identity
+                    driverAgency:(NSString *)driverAgency
+                     driverClass:(double)driverClass
+                   credentialUrl:(NSString *)credentialUrl
+                      vehicleUrl:(NSString *)vehicleUrl
+             roadTransportNumber:(NSString *)roadTransportNumber
                         delegate:(id <RequestDelegate>)delegate
                          success:(void (^)(NSDictionary * response, id mark))success
                          failure:(void (^)(NSString * errorStr, id mark))failure{
-    NSDictionary *dic = @{@"driverPhone":RequestStrKey(phone),
-                          @"pwd":RequestStrKey([pwd base64Encode]),
+    NSMutableDictionary *dic = @{
                           @"driverName":RequestStrKey(name),
                           @"idCard":RequestStrKey(idCard),
                           @"bankName":RequestStrKey(bankName),
@@ -262,43 +267,22 @@ driverPhone:(NSString *)driverPhone
                           @"idCardBackUrl":RequestStrKey(idCardBackUrl),
                           @"driverLicenseUrl":RequestStrKey(driverLicenseUrl),
                           @"idCardHandelUrl":RequestStrKey(idCardHandelUrl),
-                          };
-    [self postUrl:@"/zhongcheyun/driver/1_0_10" delegate:delegate parameters:dic success:success failure:failure];
+                          @"id":RequestLongKey(identity),
+                          @"driverAgency":RequestStrKey(driverAgency),
+                          @"driverClass":RequestLongKey(driverClass),
+                          @"credentialUrl":RequestStrKey(credentialUrl),
+                          @"vehicleUrl":RequestStrKey(vehicleUrl),
+                          @"roadTransportNumber":RequestStrKey(roadTransportNumber)
+    }.mutableCopy;
+    if (identity) {
+        [self patchUrl:@"/zhongcheyun/driver/1_0_10/{id}" delegate:delegate parameters:dic success:success failure:failure];
+    }else{
+        [dic setObject:RequestStrKey(phone) forKey:@"driverPhone"];
+        [dic setObject:RequestStrKey([pwd base64Encode]) forKey:@"pwd"];
+        [self postUrl:@"/zhongcheyun/driver/1_0_10" delegate:delegate parameters:dic success:success failure:failure];
+    }
 }
-/**
- 编辑司机
- */
-+(void)requestEditDriverWithName:(NSString *)name
-                          idCard:(NSString *)idCard
-                           entId:(double)entId
-                              id:(double)identity
-                        bankName:(NSString *)bankName
-                     bankAccount:(NSString *)bankAccount
-                            addr:(NSString *)addr
-                  idCardFrontUrl:(NSString *)idCardFrontUrl
-                   idCardBackUrl:(NSString *)idCardBackUrl
-                driverLicenseUrl:(NSString *)driverLicenseUrl
-                 idCardHandelUrl:(NSString *)idCardHandelUrl
-                        delegate:(id <RequestDelegate>)delegate
-                         success:(void (^)(NSDictionary * response, id mark))success
-                         failure:(void (^)(NSString * errorStr, id mark))failure{
-    NSDictionary *dic = @{
-                          //                          @"driverPhone":RequestStrKey(phone),
-                          //                          @"pwd":RequestStrKey(pwd),
-                          @"driverName":RequestStrKey(name),
-                          @"idCard":RequestStrKey(idCard),
-                          @"entId":NSNumber.dou(entId),
-                          @"bankName":RequestStrKey(bankName),
-                          @"bankAccount":RequestStrKey(bankAccount),
-                          @"addr":RequestStrKey(addr),
-                          @"id":NSNumber.dou(identity),
-                          @"idCardFrontUrl":RequestStrKey(idCardFrontUrl),
-                          @"idCardBackUrl":RequestStrKey(idCardBackUrl),
-                          @"driverLicenseUrl":RequestStrKey(driverLicenseUrl),
-                          @"idCardHandelUrl":RequestStrKey(idCardHandelUrl),
-                          };
-    [self patchUrl:@"/zhongcheyun/driver/1_0_10/{id}" delegate:delegate parameters:dic success:success failure:failure];
-}
+
 /**
  删除司机
  */

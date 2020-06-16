@@ -38,6 +38,11 @@ NSString *const kModelDriverBankAccount = @"bankAccount";
 NSString *const kModelDriverAddr = @"addr";
 NSString *const kModelDriverBankName = @"bankName";
 NSString *const kModelDriverQualificationDescription = @"qualificationDescription";
+NSString *const kModelDriverRoadTransportNumber = @"roadTransportNumber";
+NSString *const kModelDriverDriverClass = @"driverClass";
+NSString *const kModelDriverDriverLicense = @"driverLicense";
+NSString *const kModelDriverIdAddr = @"idAddr";
+NSString *const kModelDriverDriverAgency = @"driverAgency";
 
 @interface ModelDriver ()
 @property (nonatomic, strong) NSString *nickname;
@@ -158,6 +163,11 @@ NSString *const kModelDriverQualificationDescription = @"qualificationDescriptio
         self.addr = [dict stringValueForKey:kModelDriverAddr];
         self.bankName = [dict stringValueForKey:kModelDriverBankName];
         self.qualificationDescription = [dict stringValueForKey:kModelDriverQualificationDescription];
+        self.roadTransportNumber = [dict stringValueForKey:kModelDriverRoadTransportNumber];
+        self.driverClass = [dict doubleValueForKey:kModelDriverDriverClass];
+        self.driverLicense = [dict stringValueForKey:kModelDriverDriverLicense];
+        self.idAddr = [dict stringValueForKey:kModelDriverIdAddr];
+        self.driverAgency = [dict stringValueForKey:kModelDriverDriverAgency];
 
     }
     
@@ -197,6 +207,11 @@ NSString *const kModelDriverQualificationDescription = @"qualificationDescriptio
     [mutableDict setValue:self.addr forKey:kModelDriverAddr];
     [mutableDict setValue:self.bankName forKey:kModelDriverBankName];
     [mutableDict setValue:self.qualificationDescription forKey:kModelDriverQualificationDescription];
+    [mutableDict setValue:self.roadTransportNumber forKey:kModelDriverRoadTransportNumber];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.driverClass] forKey:kModelDriverDriverClass];
+    [mutableDict setValue:self.driverLicense forKey:kModelDriverDriverLicense];
+    [mutableDict setValue:self.idAddr forKey:kModelDriverIdAddr];
+    [mutableDict setValue:self.driverAgency forKey:kModelDriverDriverAgency];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }

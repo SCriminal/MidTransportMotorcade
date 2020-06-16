@@ -32,7 +32,26 @@
         model.title = @"联系方式";
         model.subTitle = modelDriver.driverPhone;
         return model;
-    }()].mutableCopy;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"从业资格证号";
+        model.subTitle = modelDriver.roadTransportNumber;
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"驾驶证-发证机关";
+        model.subTitle = modelDriver.driverAgency;
+        return model;
+    }(),^(){
+        ModelBtn * model = [ModelBtn new];
+        model.title = @"准驾车型";
+        NSArray * aryType = @[@"A1",@"A2",@"A3",@"B1",@"B2",@"C1",@"C2",@"C3",@"C4",@"D",@"E",@"F",@"M",@"N",@"P"];
+        int index = (int)modelDriver.driverClass;
+        if (index<aryType.count) {
+            model.subTitle = aryType[index];
+        }
+        return model;
+    }(),].mutableCopy;
     if (modelDriver.isAuthorityReject) {
         [aryBtns insertObject:^(){
             ModelBtn * model = [ModelBtn new];
@@ -69,7 +88,7 @@
         labelSubTitle.font = [UIFont systemFontOfSize:F(15) weight:UIFontWeightRegular];
         labelSubTitle.textColor = model.color?model.color:COLOR_666;
         labelSubTitle.numberOfLines = 1;
-        [labelSubTitle fitTitle:UnPackStr(model.subTitle) variable:SCREEN_WIDTH/2.0 + W(25)];
+        [labelSubTitle fitTitle:isStr(model.subTitle)?model.subTitle:@"暂无" variable:SCREEN_WIDTH/2.0 + W(25)];
         labelSubTitle.rightCenterY = XY(SCREEN_WIDTH - W(15), labelTitle.centerY);
         [viewSuper addSubview:labelSubTitle];
         
@@ -91,49 +110,3 @@
 @end
 
 
-@implementation DriverDetailImageView
-
-#pragma mark 刷新view
-- (void)resetViewWithAryModels:(NSArray *)aryImages{
-    self.aryImages = aryImages;
-    [self removeAllSubViews];//移除线
-    CGFloat left= W(15);
-    //重置视图坐标
-    for (int i = 0; i<aryImages.count; i++) {
-        ModelImage *model = aryImages[i];
-        UIImageView * iv = [[UIImageView alloc]initWithFrame:CGRectMake(left, W(25), W(78), W(65))];
-        [iv sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:model.image];
-        iv.tag = i;
-        iv.contentMode = UIViewContentModeScaleAspectFill;
-        iv.userInteractionEnabled = true;
-        [iv addTarget:self action:@selector(imageClick:)];
-        [self addSubview:iv];
-        left = iv.right +W(11);
-        [GlobalMethod setRoundView:iv color:[UIColor clearColor] numRound:5 width:0];
-    }
-    self.height = W(90);
-}
-
-#pragma mark 初始化
-- (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor whiteColor];//背景色
-        self.width = SCREEN_WIDTH;//默认宽度
-    }
-    return self;
-}
-
-#pragma mark click
-- (void)imageClick:(UITapGestureRecognizer *)tap{
-    UIImageView * view = (UIImageView *)tap.view;
-    if (![view isKindOfClass:UIImageView.class]) {
-        return;
-    }
-    ImageDetailBigView * detailView = [ImageDetailBigView new];
-    [detailView resetView:self.aryImages.mutableCopy isEdit:false index: view.tag];
-    [detailView showInView:[GB_Nav.lastVC view] imageViewShow:view];
-}
-
-
-@end

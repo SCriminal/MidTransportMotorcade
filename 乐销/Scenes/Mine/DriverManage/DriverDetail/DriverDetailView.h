@@ -15,9 +15,3 @@
 + (CGFloat)addDetailSubView:(NSArray *)aryBtns inView:(UIView *)viewSuper title:(NSString *)title;
 @end
 
-@interface DriverDetailImageView : UIView
-@property (nonatomic, strong) NSArray *aryImages;
-
-#pragma mark 刷新view
-- (void)resetViewWithAryModels:(NSArray *)aryImages;
-@end

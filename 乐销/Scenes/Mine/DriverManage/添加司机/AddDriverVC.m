@@ -21,6 +21,7 @@
 #import "AliClient.h"
 //example vc
 #import "AuthortiyExampleVC.h"
+#import "ListAlertView.h"
 
 @interface AddDriverVC ()
 @property (nonatomic, strong) ModelBaseData *modelPhone;
@@ -28,6 +29,9 @@
 @property (nonatomic, strong) ModelBaseData *modelName;
 @property (nonatomic, strong) ModelBaseData *modelIdentityCode;
 @property (nonatomic, strong) ModelBaseData *modelAddr;
+@property (nonatomic, strong) ModelBaseData *modelAgency;
+@property (nonatomic, strong) ModelBaseData *modelRoadTransportNumber;
+@property (nonatomic, strong) ModelBaseData *modelCarType;
 
 @property (nonatomic, strong) AuthorityImageView *bottomView;
 @end
@@ -44,6 +48,7 @@
             model.string = @"司机账号";
             model.subString = self.model.driverPhone;
             model.placeHolderString = @"输入司机手机号 (必填)";
+            model.isRequired = true;
             return model;
         }();
     }
@@ -56,7 +61,8 @@
             model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
             model.string = @"登录密码";
-            model.placeHolderString = @"输入司机登录密码 (必填)";
+            model.placeHolderString = @"输入司机登录密码";
+            model.isRequired = true;
             return model;
         }();
     }
@@ -71,6 +77,7 @@
             model.string = @"司机姓名";
             model.placeHolderString = @"输入司机真实姓名 (必填)";
             model.subString = self.model.driverName;
+            model.isRequired = true;
             return model;
         }();
     }
@@ -85,13 +92,12 @@
             model.string = @"身份证号";
             model.placeHolderString = @"输入司机身份证号 (必填)";
             model.subString = self.model.idNumber;
+            model.isRequired = true;
             return model;
         }();
     }
     return _modelIdentityCode;
 }
-
-
 - (ModelBaseData *)modelAddr{
     if (!_modelAddr) {
         _modelAddr = ^(){
@@ -106,38 +112,74 @@
     }
     return _modelAddr;
 }
+- (ModelBaseData *)modelAgency {
+    if (!_modelAgency) {
+        _modelAgency =^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"发证机关";
+            model.subString = self.model.driverAgency;
+            model.placeHolderString = @"输入发证机关";
+            return model;
+        }();
+    }
+    return _modelAgency;
+}
+- (ModelBaseData *)modelRoadTransportNumber {
+    if (!_modelRoadTransportNumber) {
+        _modelRoadTransportNumber = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
+            model.imageName = @"";
+            model.string = @"从业资格证号";
+            model.subString = self.model.driverAgency;
+            model.placeHolderString = @"输入道路运输从业资格证号";
+            return model;
+        }();
+    }
+    return _modelRoadTransportNumber;
+}
+- (ModelBaseData *)modelCarType {
+    if (!_modelCarType) {
+        WEAKSELF
+        _modelCarType = ^(){
+            ModelBaseData * model = [ModelBaseData new];
+            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.imageName = @"";
+            model.string = @"准驾车型";
+            model.subString = self.model.driverAgency;
+            model.placeHolderString = @"选择准驾车型";
+            model.blocClick = ^(ModelBaseData *item) {
+                  [GlobalMethod endEditing];
+                              ListAlertView * listNew = [ListAlertView new];
+                NSArray * aryType = @[@"A1",@"A2",@"A3",@"B1",@"B2",@"C1",@"C2",@"C3",@"C4",@"D",@"E",@"F",@"M",@"N",@"P"];
+                              for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+                                  if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelCarType.string]) {
+                                      [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+                                      [listNew showWithPoint:CGPointMake(W(15), NAVIGATIONBAR_HEIGHT + cell.height)  width:SCREEN_WIDTH - W(30) ary:aryType];
+                                      listNew.alpha = 0;
+                                      [UIView animateWithDuration:0.3 animations:^{
+                                          listNew.alpha = 1;
+                                      }];
+                                      break;
+                                  }
+                              }
+                              listNew.blockSelected = ^(NSInteger index) {
+                                  weakSelf.modelCarType.subString = aryType[index];
+                                  weakSelf.modelCarType.identifier = NSNumber.dou(index+1).stringValue;
+                                  [weakSelf.tableView reloadData];
+                              };
+            };
+            return model;
+        }();
+    }
+    return _modelCarType;
+}
 - (AuthorityImageView *)bottomView{
     if (!_bottomView) {
         _bottomView = [AuthorityImageView new];
-        [_bottomView resetViewWithAryModels:@[^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证正"] url:nil];
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            model.isEssential = true;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证国徽面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证反"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加手持身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加驾驶证主页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
-            model.isEssential = true;
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }()]];
+        [self refreshBottomView:nil];
     }
     return _bottomView;
 }
@@ -169,6 +211,7 @@
     BaseNavView *nav = [BaseNavView initNavBackTitle:self.model.driverId?@"编辑司机": @"添加司机" rightTitle:self.model.driverId?@"重新提交":@"提交" rightBlock:^{
         [weakSelf requestAdd];
     }];
+    self.subTitleInterval = W(120);
     [nav configBlackBackStyle];
     [self.view addSubview:nav];
     //request
@@ -183,7 +226,7 @@
         model.imageName = @"";
         model.string = @"基本信息";
         return model;
-    }(),self.modelName,self.modelIdentityCode,self.modelAddr,^(){
+    }(),self.modelName,self.modelIdentityCode,self.modelAddr,self.modelAgency,self.modelCarType,self.modelRoadTransportNumber,^(){
         ModelBaseData * model = [ModelBaseData new];
         model.enumType = ENUM_PERFECT_CELL_EMPTY;
         model.imageName = @"";
@@ -239,8 +282,6 @@
     return [self fetchAuthorityCellHeight:indexPath];
 }
 
-
-
 #pragma mark status bar
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -270,6 +311,9 @@
     ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
     ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
     ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:3];
+    ModelImage * model4 = [self.bottomView.aryDatas objectAtIndex:4];
+    ModelImage * model5 = [self.bottomView.aryDatas objectAtIndex:5];
+
     if (!isStr(model0.image.imageURL)) {
         [GlobalMethod showAlert:@"请添加身份证人像面"];
         return;
@@ -286,28 +330,6 @@
         [GlobalMethod showAlert:@"请添加驾驶证主页"];
         return;
     }
-    
-    if (self.model.driverId) {
-        [RequestApi requestEditDriverWithName:self.modelName.subString
-                                       idCard:self.modelIdentityCode.subString
-                                        entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
-                                           id:self.model.driverId
-                                     bankName:nil
-                                  bankAccount:nil
-                                         addr:self.modelAddr.subString
-                               idCardFrontUrl:UnPackStr(model0.image.imageURL)
-                                idCardBackUrl:UnPackStr(model1.image.imageURL)
-                             driverLicenseUrl:UnPackStr(model3.image.imageURL)
-                              idCardHandelUrl:UnPackStr(model2.image.imageURL)
-                                     delegate:self
-                                      success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-            [GlobalMethod showAlert:@"编辑成功"];
-            self.requestState = 1;
-            [GB_Nav popViewControllerAnimated:true];
-        } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
-            
-        }];
-    }else{
         [RequestApi requestAddDriverWithPhone:self.modelPhone.subString
                                           pwd:self.modelPwd.subString
                                          name:self.modelName.subString
@@ -320,15 +342,20 @@
                                 idCardBackUrl:UnPackStr(model1.image.imageURL)
                              driverLicenseUrl:UnPackStr(model3.image.imageURL)
                               idCardHandelUrl:UnPackStr(model2.image.imageURL)
+                                     identity:self.model.iDProperty
+                                 driverAgency:self.modelAgency.subString
+                                  driverClass:self.modelCarType.identifier.doubleValue
+                                credentialUrl:UnPackStr(model5.image.imageURL)
+                                   vehicleUrl:UnPackStr(model4.image.imageURL)
+                          roadTransportNumber:self.modelRoadTransportNumber.subString
                                      delegate:self
                                       success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
-            [GlobalMethod showAlert:@"添加成功"];
+            [GlobalMethod showAlert:@"提交成功"];
             self.requestState = 1;
             [GB_Nav popViewControllerAnimated:true];
         } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
             
         }];
-    }
     
     
 }
@@ -343,44 +370,61 @@
         if (!isDic(response)) {
             return ;
         }
-        [self.bottomView resetViewWithAryModels:@[^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证正"] url:nil];
-            model.isEssential = true;
-            model.url = [response stringValueForKey:@"idCardFrontUrl"];
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证国徽面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证反"] url:nil];
-            model.isEssential = true;
-            model.url = [response stringValueForKey:@"idCardBackUrl"];
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加手持身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
-            model.isEssential = true;
-            model.url = [response stringValueForKey:@"idCardHandelUrl"];
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }(),^(){
-            ModelImage * model = [ModelImage new];
-            model.desc = @"添加驾驶证主页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
-            model.isEssential = true;
-            model.url = [response stringValueForKey:@"driverLicenseUrl"];
-            model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
-            return model;
-        }()]];
+        [self refreshBottomView:response];
         
         
         
     } failure:^(NSString * _Nonnull errorStr, id  _Nonnull mark) {
         
     }];
+}
+-(void)refreshBottomView:(NSDictionary *)response{
+    [self.bottomView resetViewWithAryModels:@[^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加身份证人像面";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证正"] url:nil];
+               model.isEssential = true;
+               model.url = [response stringValueForKey:@"idCardFrontUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }(),^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加身份证国徽面";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证反"] url:nil];
+               model.isEssential = true;
+               model.url = [response stringValueForKey:@"idCardBackUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }(),^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加手持身份证人像面";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
+               model.isEssential = true;
+               model.url = [response stringValueForKey:@"idCardHandelUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }(),^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加驾驶证主页";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
+               model.isEssential = true;
+               model.url = [response stringValueForKey:@"driverLicenseUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }(),^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加人车照";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_humanCar"] url:nil];
+               model.url = [response stringValueForKey:@"vehicleUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }(),^(){
+               ModelImage * model = [ModelImage new];
+               model.desc = @"添加从业资格证照";
+               model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_driverLicense"] url:nil];
+               model.url = [response stringValueForKey:@"credentialUrl"];
+               model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               return model;
+           }()]];
 }
 @end

@@ -703,13 +703,13 @@
     ModelImage * model0 = [self.bottomView.aryDatas objectAtIndex:0];
     ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
     ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
-    ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:3];
-    ModelImage * model4 = [self.bottomView.aryDatas objectAtIndex:4];
-    ModelImage * model5 = [self.bottomView.aryDatas objectAtIndex:5];
-    ModelImage * model6 = [self.bottomView.aryDatas objectAtIndex:6];
-    ModelImage * model7 = [self.bottomView.aryDatas objectAtIndex:7];
-    ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:8];
-    ModelImage * model9 = [self.bottomView.aryDatas objectAtIndex:9];
+    ModelImage * model9 = [self.bottomView.aryDatas objectAtIndex:3];
+    ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:4];
+    ModelImage * model4 = [self.bottomView.aryDatas objectAtIndex:5];
+    ModelImage * model5 = [self.bottomView.aryDatas objectAtIndex:6];
+    ModelImage * model6 = [self.bottomView.aryDatas objectAtIndex:7];
+    ModelImage * model7 = [self.bottomView.aryDatas objectAtIndex:8];
+    ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:9];
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestAddCarWithVin:self.modelCarIdentityCode.subString
                         engineNumber:self.modelEngineCode.subString
@@ -779,7 +779,6 @@
         self.modelOwner.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
         self.modelDrivingNumber.subString = modelDetail.drivingNumber;
-        self.modelDrivingNumber.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
         //转化车辆类型
         self.modelVehicleType.identifier = NSNumber.dou(modelDetail.vehicleType).stringValue;
@@ -863,7 +862,17 @@
         model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
         model.isEssential = true;
         model.url = modelDetail.vehicleInsuranceUrl;
+        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"行驶证检验页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
+        model.isEssential = true;
+        model.url = modelDetail.driving2NegativeUrl;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
@@ -905,14 +914,6 @@
         model.desc = @"添加道路运输许可证";
         model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
         model.url = modelDetail.managementLicenseUrl;
-        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
-        return model;
-    }(),^(){
-        ModelImage * model = [ModelImage new];
-        model.desc = @"行驶证检验页";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
-        model.isEssential = true;
-        model.url = modelDetail.driving2NegativeUrl;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }()]];

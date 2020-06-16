@@ -39,6 +39,11 @@
 @property (nonatomic, strong) NSString *addr;
 @property (nonatomic, strong) NSString *bankName;
 @property (nonatomic, strong) NSString *qualificationDescription;
+@property (nonatomic, strong) NSString *roadTransportNumber;
+@property (nonatomic, assign) double driverClass;
+@property (nonatomic, strong) NSString *driverLicense;
+@property (nonatomic, strong) NSString *idAddr;
+@property (nonatomic, strong) NSString *driverAgency;
 
 //logical
 @property (nonatomic, readonly) NSString *authStatusShow;

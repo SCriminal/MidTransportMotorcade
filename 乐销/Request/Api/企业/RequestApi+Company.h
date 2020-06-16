@@ -150,26 +150,16 @@ driverPhone:(NSString *)driverPhone
                    idCardBackUrl:(NSString *)idCardBackUrl
                 driverLicenseUrl:(NSString *)driverLicenseUrl
                  idCardHandelUrl:(NSString *)idCardHandelUrl
+           identity:(double)identity
+       driverAgency:(NSString *)driverAgency
+        driverClass:(double)driverClass
+      credentialUrl:(NSString *)credentialUrl
+         vehicleUrl:(NSString *)vehicleUrl
+roadTransportNumber:(NSString *)roadTransportNumber
                         delegate:(id <RequestDelegate>)delegate
                          success:(void (^)(NSDictionary * response, id mark))success
                          failure:(void (^)(NSString * errorStr, id mark))failure;
-/**
- 编辑司机
- */
-+(void)requestEditDriverWithName:(NSString *)name
-                          idCard:(NSString *)idCard
-                           entId:(double)entId
-                              id:(double)identity
-                        bankName:(NSString *)bankName
-                     bankAccount:(NSString *)bankAccount
-                            addr:(NSString *)addr
-                  idCardFrontUrl:(NSString *)idCardFrontUrl
-                   idCardBackUrl:(NSString *)idCardBackUrl
-                driverLicenseUrl:(NSString *)driverLicenseUrl
-                 idCardHandelUrl:(NSString *)idCardHandelUrl
-                        delegate:(id <RequestDelegate>)delegate
-                         success:(void (^)(NSDictionary * response, id mark))success
-                         failure:(void (^)(NSString * errorStr, id mark))failure;
+
 
 /**
  删除司机

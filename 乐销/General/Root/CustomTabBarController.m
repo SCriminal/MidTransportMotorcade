@@ -33,17 +33,21 @@
     [self setUpChildVC:[NSClassFromString(@"StatisticVC") new] title:@"统计" image:@"tab_statistics_default" selectedImage:@"tab_statistics_selected"];
     [self setUpChildVC:[NSClassFromString(@"PersonalCenterVC") new] title:@"我的" image:@"tab_mine_default" selectedImage:@"tab_mine_selected"];
 
-    // 设置tabbar的背景图片
-    [[CustomTabBar appearance]setBackgroundColor:[UIColor whiteColor]];
-    [[CustomTabBar appearance]setShadowImage:^(){
-        UIImage * img = [UIImage new];
-        return img;
-    }()];//将TabBar上的黑线去掉
-    [[CustomTabBar appearance]setBackgroundImage:^(){
-        UIImage * img = [UIImage new];
-        return img;
-    }()];
+   
     CustomTabBar *tabBar = [[CustomTabBar alloc] init];
+    //针对ios13 进行设置
+    if (@available(iOS 13.0, *)) {
+        UITabBarAppearance *appearance = [tabBar.standardAppearance copy];
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = @{NSForegroundColorAttributeName : COLOR_MAIN ,NSFontAttributeName:[UIFont systemFontOfSize:F(10)]};
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = @{NSForegroundColorAttributeName :  [UIColor colorWithHexString:@"999999"],NSFontAttributeName:[UIFont systemFontOfSize:F(10)]};
+        appearance.backgroundImage = [UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(1, 1)];
+        appearance.shadowColor = [UIColor whiteColor];
+        tabBar.standardAppearance = appearance;
+    } else {
+        [[CustomTabBar appearance]setBackgroundColor:[UIColor whiteColor]];
+        [[CustomTabBar appearance]setShadowImage:[UIImage new]];//将TabBar上的黑线去掉
+        [[CustomTabBar appearance]setBackgroundImage:[UIImage new]];
+    }
     // 设置代理
     tabBar.delegate = self;
     [self setValue:tabBar forKey:@"tabBar"];
