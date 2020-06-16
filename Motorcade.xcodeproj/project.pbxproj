@@ -296,6 +296,7 @@
 		D2DFD7BA229E87C800363142 /* ModelDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = D2DFD7B9229E87C800363142 /* ModelDriver.m */; };
 		D2E4837B1E5ABCF100D91AAD /* UINavigationController+EndEditing.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E4837A1E5ABCF100D91AAD /* UINavigationController+EndEditing.m */; };
 		D2E50D0A1E319E650045AD3F /* BaseVC+KeyboardObserve.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E50D091E319E650045AD3F /* BaseVC+KeyboardObserve.m */; };
+		D2E968AF2498BAD100EEA490 /* TakeAPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E968AE2498BAD100EEA490 /* TakeAPictureView.m */; };
 		D2F11C6D2097103600F18CBD /* UITextField+Text.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F11C6C2097103600F18CBD /* UITextField+Text.m */; };
 		D2F733B41E8642EE0008E561 /* LocalData.json in Resources */ = {isa = PBXBuildFile; fileRef = D2F733B31E8642EE0008E561 /* LocalData.json */; };
 		D2FD667620D254930048D351 /* module.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2FD667520D254920048D351 /* module.plist */; };
@@ -926,6 +927,8 @@
 		D2E4837A1E5ABCF100D91AAD /* UINavigationController+EndEditing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+EndEditing.m"; sourceTree = "<group>"; };
 		D2E50D081E319E650045AD3F /* BaseVC+KeyboardObserve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BaseVC+KeyboardObserve.h"; sourceTree = "<group>"; };
 		D2E50D091E319E650045AD3F /* BaseVC+KeyboardObserve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BaseVC+KeyboardObserve.m"; sourceTree = "<group>"; };
+		D2E968AD2498BAD100EEA490 /* TakeAPictureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakeAPictureView.h; sourceTree = "<group>"; };
+		D2E968AE2498BAD100EEA490 /* TakeAPictureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakeAPictureView.m; sourceTree = "<group>"; };
 		D2F11C6B2097103600F18CBD /* UITextField+Text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextField+Text.h"; sourceTree = "<group>"; };
 		D2F11C6C2097103600F18CBD /* UITextField+Text.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Text.m"; sourceTree = "<group>"; };
 		D2F733B31E8642EE0008E561 /* LocalData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocalData.json; sourceTree = "<group>"; };
@@ -1605,6 +1608,7 @@
 		D275DB181DFFA2E800670A40 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				D2E968AC2498BAD100EEA490 /* 拍名片 */,
 				D284B2C024934D8A00E2605A /* 自定义车牌键盘View */,
 				D27470B422A8B5B5009B645D /* LocationRecord */,
 				D2996A2C21E6E3AA00562587 /* 上传图片 */,
@@ -2742,6 +2746,15 @@
 			path = Driver;
 			sourceTree = "<group>";
 		};
+		D2E968AC2498BAD100EEA490 /* 拍名片 */ = {
+			isa = PBXGroup;
+			children = (
+				D2E968AD2498BAD100EEA490 /* TakeAPictureView.h */,
+				D2E968AE2498BAD100EEA490 /* TakeAPictureView.m */,
+			);
+			path = "拍名片";
+			sourceTree = "<group>";
+		};
 		D2EE61461E233826009D8DFA /* BaseView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3314,6 +3327,7 @@
 				D2BE30CE210711BD0059929D /* ModelAddress.m in Sources */,
 				D2BE30C6210711430059929D /* ModelBtn.m in Sources */,
 				D2136CED1E13C142003B4B92 /* NSMutableArray+Insert.m in Sources */,
+				D2E968AF2498BAD100EEA490 /* TakeAPictureView.m in Sources */,
 				D289FEAF1E8F366C00C2636B /* SectionIndexView.m in Sources */,
 				C699DAFA1EEA8857005DC71C /* NSString+LHP.m in Sources */,
 				D2B6B9CB1E960C97005F00C6 /* ImagePickerVC.m in Sources */,

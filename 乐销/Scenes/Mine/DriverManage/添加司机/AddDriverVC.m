@@ -378,7 +378,7 @@
         
     }];
 }
--(void)refreshBottomView:(NSDictionary *)response{
+- (void)refreshBottomView:(NSDictionary *)response{
     [self.bottomView resetViewWithAryModels:@[^(){
                ModelImage * model = [ModelImage new];
                model.desc = @"添加身份证人像面";
@@ -386,6 +386,7 @@
                model.isEssential = true;
                model.url = [response stringValueForKey:@"idCardFrontUrl"];
                model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+        model.cameraType = ENUM_CAMERA_IDENTITY_HEADER;
                return model;
            }(),^(){
                ModelImage * model = [ModelImage new];
@@ -394,6 +395,7 @@
                model.isEssential = true;
                model.url = [response stringValueForKey:@"idCardBackUrl"];
                model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               model.cameraType = ENUM_CAMERA_IDENTITY_EMBLEM;
                return model;
            }(),^(){
                ModelImage * model = [ModelImage new];
@@ -410,6 +412,7 @@
                model.isEssential = true;
                model.url = [response stringValueForKey:@"driverLicenseUrl"];
                model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
+               model.cameraType = ENUM_CAMERA_DRIVING;
                return model;
            }(),^(){
                ModelImage * model = [ModelImage new];

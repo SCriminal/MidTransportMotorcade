@@ -61,47 +61,47 @@
         }
         [self.bottomView resetViewWithAryModels:@[^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证正"] url:nil];
+            model.desc = @"身份证人像面";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardFrontUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加身份证国徽面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_身份证反"] url:nil];
+            model.desc = @"身份证国徽面";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardBackUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加手持身份证人像面";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
+            model.desc = @"手持身份证人像面";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"idCardHandelUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加驾驶证主页";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
+            model.desc = @"驾驶证主页";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.isEssential = true;
             model.url = [response stringValueForKey:@"driverLicenseUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加人车照";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_humanCar"] url:nil];
+            model.desc = @"人车照";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.url = [response stringValueForKey:@"vehicleUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
-            model.desc = @"添加从业资格证照";
-            model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_driverLicense"] url:nil];
+            model.desc = @"从业资格证照";
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:nil];
             model.url = [response stringValueForKey:@"credentialUrl"];
             model.imageType = ENUM_UP_IMAGE_TYPE_USER_AUTHORITY;
             return model;
