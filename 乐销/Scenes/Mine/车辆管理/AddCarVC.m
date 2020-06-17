@@ -86,6 +86,7 @@
             model.isRequired = true;
             WEAKSELF
             model.blocClick = ^(ModelBaseData *item) {
+                [GlobalMethod endEditing];
                 for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
                     if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelCarNum.string]) {
                         CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];
@@ -272,6 +273,7 @@
             model.placeHolderString = @"输入挂车号码";
             WEAKSELF
             model.blocClick = ^(ModelBaseData *item) {
+                [GlobalMethod endEditing];
                 for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
                     if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelHangCode.string]) {
                         CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];

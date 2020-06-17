@@ -46,8 +46,8 @@
         ModelBtn * model = [ModelBtn new];
         model.title = @"准驾车型";
         NSArray * aryType = @[@"A1",@"A2",@"A3",@"B1",@"B2",@"C1",@"C2",@"C3",@"C4",@"D",@"E",@"F",@"M",@"N",@"P"];
-        int index = (int)modelDriver.driverClass;
-        if (index<aryType.count) {
+        int index = (int)modelDriver.driverClass-1;
+        if (index>=0 && index<aryType.count) {
             model.subTitle = aryType[index];
         }
         return model;

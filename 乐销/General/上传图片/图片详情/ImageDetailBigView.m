@@ -136,6 +136,9 @@
 }
 //reset view
 - (void)resetView:(NSMutableArray *)ary isEdit:(BOOL)isEdit index:(NSInteger)index{
+    if (ary.count==0) {
+        return;
+    }
     self.aryDatas = ary;
     self.isEdit = isEdit;
     self.btnDelete.hidden = !self.isEdit;
@@ -147,8 +150,9 @@
     } completion:^(BOOL finished) {
         if (finished) {
             [weakSelf.collectionImageDetail performBatchUpdates:^{
-                [weakSelf.collectionImageDetail scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index < weakSelf.aryDatas.count?index:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-                
+                if (index < weakSelf.aryDatas.count) {
+                     [weakSelf.collectionImageDetail scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index < weakSelf.aryDatas.count?index:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+                }                
             } completion:^(BOOL finished) {
                 //初始化显示cell
                 [weakSelf resetTableCell];
