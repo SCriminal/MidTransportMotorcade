@@ -55,14 +55,7 @@
         model.subTitle = [AddCarVC exchangeLicenseType:strDotF(modelDetail.licenceType)];
         
         return model;
-    }(),
-                                                            //                                        ^(){
-                                                            //            ModelBtn * model = [ModelBtn new];
-                                                            //            model.title = @"车长";
-                                                            //            model.subTitle =modelDetail.vehicleLength?[AddCarVC exchangeVehicleLength:strDotF(modelDetail.vehicleLength)]:@"暂无";
-                                                            //            return model;
-                                                            //        }(),
-                                                            ^(){
+    }(),^(){
         ModelBtn * model = [ModelBtn new];
         model.title = @"档案编号";
         model.subTitle = modelDetail.drivingNumber;

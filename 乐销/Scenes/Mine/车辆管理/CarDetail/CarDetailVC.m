@@ -84,6 +84,12 @@
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
+            model.desc = @"行驶证检验页";
+            model.url = modelDetail.driving2NegativeUrl;
+            model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:[NSURL URLWithString:model.url]];
+            return model;
+        }(),^(){
+            ModelImage * model = [ModelImage new];
             model.desc = @"车辆三者险保单";
             model.url = modelDetail.vehicleTripartiteInsuranceUrl;
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:IMAGE_BIG_DEFAULT] url:[NSURL URLWithString:model.url]];

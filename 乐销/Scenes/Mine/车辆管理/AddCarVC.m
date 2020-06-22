@@ -843,8 +843,8 @@
     [self.bottomView resetViewWithAryModels:@[^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加行驶证主页";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
         model.url = modelDetail.drivingLicenseFrontUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:[NSURL URLWithString:model.url]];
         model.isEssential = true;
         model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
@@ -854,69 +854,69 @@
         ModelImage * model = [ModelImage new];
         model.desc = @"添加行驶证副页";
         model.isEssential = true;
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证反"] url:nil];
         model.url = modelDetail.drivingLicenseNegativeUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证反"] url:[NSURL URLWithString:model.url]];
         model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加车辆交强险保单";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
-        model.isEssential = true;
         model.url = modelDetail.vehicleInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
+        model.isEssential = true;
         model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"行驶证检验页";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:nil];
-        model.isEssential = true;
         model.url = modelDetail.driving2NegativeUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_检验页"] url:[NSURL URLWithString:model.url]];
+        model.isEssential = true;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加车辆三者险保单";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
         model.url = modelDetail.vehicleTripartiteInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加挂车交强险保单";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
         model.url = modelDetail.trailerInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加挂车三者险保单";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
         model.url = modelDetail.trailerTripartiteInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加挂车箱货险保单";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:nil];
         model.url = modelDetail.trailerGoodsInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加行驶证机动车相片页";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:nil];
         model.url = modelDetail.vehiclePhotoUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加道路运输许可证";
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:nil];
         model.url = modelDetail.managementLicenseUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_运输许可证"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }()]];
