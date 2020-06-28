@@ -3,17 +3,17 @@
   "value": 1,
   "label": "大型汽车号牌",
   "value2": "",
-  "status": 1
+  "status": 0
 },{
   "value": 2,
   "label": "小型汽车号牌",
   "value2": "",
-  "status": 1
+  "status": 0
 },{
   "value": 3,
   "label": "其他号牌",
   "value2": "",
-  "status": 1
+  "status": 0
 },{
   "value": 4,
   "label": "蓝色",
