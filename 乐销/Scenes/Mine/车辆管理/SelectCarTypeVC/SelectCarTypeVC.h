@@ -23,7 +23,7 @@
 @end
 
 
-@interface SearchShopNavView : UIView<UITextFieldDelegate>
+@interface SearchCarTypeNavView : UIView<UITextFieldDelegate>
 //属性
 @property (strong, nonatomic) UIButton *btnSearch;
 @property (strong, nonatomic) UITextField *tfSearch;

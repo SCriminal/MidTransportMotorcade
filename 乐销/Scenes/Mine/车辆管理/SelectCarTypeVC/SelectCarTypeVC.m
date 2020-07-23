@@ -11,14 +11,14 @@
 @interface SelectCarTypeVC ()
 @property (nonatomic, strong) NSMutableArray *aryCarID;
 @property (nonatomic, strong) NSMutableArray *aryCarType;
-@property (nonatomic, strong) SearchShopNavView *searchView;
+@property (nonatomic, strong) SearchCarTypeNavView *searchView;
 
 @end
 
 @implementation SelectCarTypeVC
-- (SearchShopNavView *)searchView{
+- (SearchCarTypeNavView *)searchView{
     if (!_searchView) {
-        _searchView = [SearchShopNavView new];
+        _searchView = [SearchCarTypeNavView new];
         _searchView.top = NAVIGATIONBAR_HEIGHT;
         WEAKSELF
         _searchView.blockSearch = ^(NSString *str) {
@@ -148,7 +148,7 @@
 @end
 
 
-@implementation SearchShopNavView
+@implementation SearchCarTypeNavView
 
 - (UIButton *)btnSearch{
     if (_btnSearch == nil) {
