@@ -15,11 +15,11 @@
 #define URL_IMAGE @"http://112.253.1.72:10499"//image
 #define URL_SHARE @"http://112.253.1.72:10201"
 //#define URL_HEAD  @"https://api.zhongcheyun.cn"
-//#define URL_IMAGE @"http://img.zhongcheyun.cn"//image
+//#define URL_IMAGE @"https://img.zhongcheyun.cn"//image
 //#define URL_SHARE @"https://www.zhongcheyun.cn"
 #else
 #define URL_HEAD  @"https://api.zhongcheyun.cn"
-#define URL_IMAGE @"http://img.zhongcheyun.cn"//image
+#define URL_IMAGE @"https://img.zhongcheyun.cn"//image
 #define URL_SHARE @"https://www.zhongcheyun.cn"
 
 #endif
