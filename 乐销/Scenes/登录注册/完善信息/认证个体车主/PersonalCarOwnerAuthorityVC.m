@@ -78,13 +78,14 @@
         }(),^(){
             ModelImage * model = [ModelImage new];
             model.desc = @"添加手持身份证人像面";
-            model.isEssential = true;
+            model.isEssential = false;
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
         }(),^(){
             ModelImage * model = [ModelImage new];
             model.desc = @"添加驾驶证主页";
+            model.isEssential = true;
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_驾驶证"] url:nil];
             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;
             return model;
@@ -212,10 +213,10 @@
         [GlobalMethod showAlert:@"请添加身份证国徽面图片"];
         return;
     }
-    if (!isStr(model2.image.imageURL)) {
-        [GlobalMethod showAlert:@"请添加手持身份证图片"];
-        return;
-    }
+//    if (!isStr(model2.image.imageURL)) {
+//        [GlobalMethod showAlert:@"请添加手持身份证图片"];
+//        return;
+//    }
     if (!isStr(model3.image.imageURL)) {
         [GlobalMethod showAlert:@"请添加驾驶证主页"];
         return;
@@ -327,7 +328,7 @@
         }(),^(){
             ModelImage * model = [ModelImage new];
             model.desc = @"添加手持身份证人像面";
-            model.isEssential = true;
+            model.isEssential = false;
             model.url = [response stringValueForKey:@"idCardHandheldUrl"];
             model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_手持身份证"] url:nil];
             model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_AUTHORITY;

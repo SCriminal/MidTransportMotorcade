@@ -181,9 +181,9 @@
     //    [self showImageVC:1];
 //        [self orc:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554282970924&di=7bf3be94e56958da7913d04098374671&imgtype=0&src=http%3A%2F%2Fwww.nbskylark.com%2Fpictures%2F201410%2F30%2FXH20141030090410806F.jpg"];
     //    [self quickLoginBtnClick];
-//    [GB_Nav pushVCName:@"AccountListVC" animated:true];
+    [GB_Nav pushVCName:@"PersonalCarOwnerAuthorityVC" animated:true];
     //    [ShareView show];
-    [self addVersion];
+//    [self addVersion];
 }
 
 /*
