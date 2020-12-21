@@ -705,13 +705,30 @@
     ModelImage * model0 = [self.bottomView.aryDatas objectAtIndex:0];
     ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
     ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
-    ModelImage * model9 = [self.bottomView.aryDatas objectAtIndex:3];
-    ModelImage * model3 = [self.bottomView.aryDatas objectAtIndex:4];
-    ModelImage * model4 = [self.bottomView.aryDatas objectAtIndex:5];
-    ModelImage * model5 = [self.bottomView.aryDatas objectAtIndex:6];
-    ModelImage * model6 = [self.bottomView.aryDatas objectAtIndex:7];
-    ModelImage * model7 = [self.bottomView.aryDatas objectAtIndex:8];
-    ModelImage * model8 = [self.bottomView.aryDatas objectAtIndex:9];
+    ModelImage * mod3 = [self.bottomView.aryDatas objectAtIndex:3];
+    ModelImage * mod4 = [self.bottomView.aryDatas objectAtIndex:4];
+    ModelImage * mod5 = [self.bottomView.aryDatas objectAtIndex:5];
+    ModelImage * mod6 = [self.bottomView.aryDatas objectAtIndex:6];
+    ModelImage * mod7 = [self.bottomView.aryDatas objectAtIndex:7];
+    ModelImage * mod9 = [self.bottomView.aryDatas objectAtIndex:9];
+    ModelImage * mod8 = [self.bottomView.aryDatas objectAtIndex:8];
+
+    if (!isStr(model0.image.imageURL)) {
+        [GlobalMethod showAlert:@"请添加行驶证主页"];
+        return;
+    }
+    if (!isStr(model1.image.imageURL)) {
+           [GlobalMethod showAlert:@"请添加行驶证副页"];
+           return;
+       }
+    if (!isStr(model2.image.imageURL)) {
+           [GlobalMethod showAlert:@"请添加行驶证机动车相片页"];
+           return;
+       }
+    if (!isStr(mod3.image.imageURL)) {
+           [GlobalMethod showAlert:@"请添加行驶证检验页"];
+           return;
+       }
     self.modelCarNum.subString = self.modelCarNum.subString.uppercaseString;
     [RequestApi requestAddCarWithVin:self.modelCarIdentityCode.subString
                         engineNumber:self.modelEngineCode.subString
@@ -726,13 +743,13 @@
                         vehicleOwner:self.modelOwner.subString
               drivingLicenseFrontUrl:UnPackStr(model0.image.imageURL)
            drivingLicenseNegativeUrl:UnPackStr(model1.image.imageURL)
-                 vehicleInsuranceUrl:UnPackStr(model2.image.imageURL)
-       vehicleTripartiteInsuranceUrl:UnPackStr(model3.image.imageURL)
-                 trailerInsuranceUrl:UnPackStr(model4.image.imageURL)
-       trailerTripartiteInsuranceUrl:UnPackStr(model5.image.imageURL)
-            trailerGoodsInsuranceUrl:UnPackStr(model6.image.imageURL)
-                     vehiclePhotoUrl:UnPackStr(model7.image.imageURL)
-                managementLicenseUrl:UnPackStr(model8.image.imageURL)
+                 vehicleInsuranceUrl:UnPackStr(mod8.image.imageURL)
+       vehicleTripartiteInsuranceUrl:UnPackStr(mod4.image.imageURL)
+                 trailerInsuranceUrl:UnPackStr(mod5.image.imageURL)
+       trailerTripartiteInsuranceUrl:UnPackStr(mod6.image.imageURL)
+            trailerGoodsInsuranceUrl:UnPackStr(mod7.image.imageURL)
+                     vehiclePhotoUrl:UnPackStr(model2.image.imageURL)
+                managementLicenseUrl:UnPackStr(mod9.image.imageURL)
                               length:self.modelVehicleLength.subString.doubleValue
                               weight:self.modelVehicleWidth.subString.doubleValue
                               height:self.modelVehicleHeight.subString.doubleValue
@@ -746,7 +763,7 @@
                  drivingRegisterDate:isStr(self.modelDrivingResignDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingResignDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
                     drivingIssueDate:isStr(self.modelDrivingIssueDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingIssueDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
                       drivingEndDate:isStr(self.modelDrivingEndDate.subString)?[GlobalMethod exchangeStringToDate:self.modelDrivingEndDate.subString formatter:TIME_DAY_SHOW].timeIntervalSince1970:0
-                 driving2NegativeUrl:UnPackStr(model9.image.imageURL)
+                 driving2NegativeUrl:UnPackStr(mod3.image.imageURL)
                             identity:self.carID
                                entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
                             driverId:self.modelDriver.identifier.doubleValue
@@ -861,11 +878,10 @@
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
-        model.desc = @"添加车辆交强险保单";
-        model.url = modelDetail.vehicleInsuranceUrl;
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
+        model.desc = @"添加行驶证机动车相片页";
+        model.url = modelDetail.vehiclePhotoUrl;
         model.isEssential = true;
-        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:[NSURL URLWithString:model.url]];
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
@@ -907,9 +923,10 @@
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
-        model.desc = @"添加行驶证机动车相片页";
-        model.url = modelDetail.vehiclePhotoUrl;
-        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_车辆照片"] url:[NSURL URLWithString:model.url]];
+        model.desc = @"添加车辆交强险保单";
+        model.url = modelDetail.vehicleInsuranceUrl;
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_交强险保单"] url:[NSURL URLWithString:model.url]];
+        model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }(),^(){
