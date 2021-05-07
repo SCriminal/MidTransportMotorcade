@@ -54,14 +54,16 @@
 @property (nonatomic, strong) ModelBaseData *modelDrivingResignDate;
 @property (nonatomic, strong) ModelBaseData *modelDrivingIssueDate;
 @property (nonatomic, strong) ModelBaseData *modelDrivingEndDate;
-
 @property (nonatomic, strong) AuthorityImageView *bottomView;
 @property (nonatomic, strong) ModelCar *modelDetail;
+@property (nonatomic, strong) NSArray *aryBottom;
+
 @end
 
 @implementation AddCarVC
 
 #pragma mark lazy init
+
 - (ModelBaseData *)modelUnbindDriver{
     if (!_modelUnbindDriver) {
         _modelUnbindDriver = ^(){
@@ -141,6 +143,7 @@
                     weakSelf.modelVehicleType.subString = type;
                     weakSelf.modelVehicleType.identifier = idNumber.stringValue;
                     [weakSelf.tableView reloadData];
+                    [weakSelf refreshTrail];
                 };
                 [GB_Nav pushViewController:selectVC animated:true];
             };
@@ -706,12 +709,15 @@
     ModelImage * model1 = [self.bottomView.aryDatas objectAtIndex:1];
     ModelImage * model2 = [self.bottomView.aryDatas objectAtIndex:2];
     ModelImage * mod3 = [self.bottomView.aryDatas objectAtIndex:3];
-    ModelImage * mod4 = [self.bottomView.aryDatas objectAtIndex:4];
-    ModelImage * mod5 = [self.bottomView.aryDatas objectAtIndex:5];
-    ModelImage * mod6 = [self.bottomView.aryDatas objectAtIndex:6];
-    ModelImage * mod7 = [self.bottomView.aryDatas objectAtIndex:7];
-    ModelImage * mod9 = [self.bottomView.aryDatas objectAtIndex:9];
-    ModelImage * mod8 = [self.bottomView.aryDatas objectAtIndex:8];
+    ModelImage * mod4 = [self.bottomView.aryDatas objectAtIndex:6];
+    ModelImage * mod5 = [self.bottomView.aryDatas objectAtIndex:7];
+    ModelImage * mod6 = [self.bottomView.aryDatas objectAtIndex:8];
+    ModelImage * mod7 = [self.bottomView.aryDatas objectAtIndex:9];
+    ModelImage * mod8 = [self.bottomView.aryDatas objectAtIndex:10];
+    ModelImage * mod9 = [self.bottomView.aryDatas objectAtIndex:11];
+
+    ModelImage * modelTrail0 = [self.bottomView.aryDatas objectAtIndex:4];
+    ModelImage * modelTrail1 = [self.bottomView.aryDatas objectAtIndex:5];
 
     if (!isStr(model0.image.imageURL)) {
         [GlobalMethod showAlert:@"请添加行驶证主页"];
@@ -768,6 +774,8 @@
                                entId:[GlobalData sharedInstance].GB_CompanyModel.iDProperty
                             driverId:self.modelDriver.identifier.doubleValue
                          driverPhone:self.modelDriverPhone.subString
+                  trailerDriving2Url:UnPackStr(modelTrail0.image.imageURL)
+                  trailerDriving3Url:UnPackStr(modelTrail1.image.imageURL)
                             delegate:self
                              success:^(NSDictionary * _Nonnull response, id  _Nonnull mark) {
         [GlobalMethod showAlert:@"提交成功"];
@@ -788,7 +796,6 @@
         ModelCar * modelDetail = [ModelCar modelObjectWithDictionary:response];
         self.modelDetail = modelDetail;
         
-        [self refreshBottomView:modelDetail];
         //config info
         //change invalid
         self.modelCarNum.subString = modelDetail.vehicleNumber;
@@ -804,6 +811,8 @@
         self.modelVehicleType.subString = [AddCarVC exchangeVehicleType:self.modelVehicleType.identifier];
         self.modelVehicleType.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
         
+        [self refreshBottomView:modelDetail];
+
         //解绑司机
         WEAKSELF
         self.modelUnbindDriver.isSelected = modelDetail.driverId;
@@ -855,8 +864,20 @@
         
     }];
 }
+- (void)refreshTrail{
+    if (self.bottomView.aryDatas.count >6) {
+        ModelImage * m0 = self.bottomView.aryDatas[4];
+        m0.isHide =  ![self.modelVehicleType.subString containsString:@"牵引车"];
+        m0 = self.bottomView.aryDatas[5];
+        m0.isHide =  ![self.modelVehicleType.subString containsString:@"牵引车"];
+        [self.bottomView refresh];
+        self.tableView.tableFooterView = self.bottomView;
+    }
+}
 - (void)refreshBottomView:(ModelCar *)modelDetail{
 //    WEAKSELF
+ 
+    
     [self.bottomView resetViewWithAryModels:@[^(){
         ModelImage * model = [ModelImage new];
         model.desc = @"添加行驶证主页";
@@ -892,6 +913,24 @@
         model.isEssential = true;
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         model.isChangeInvalid = modelDetail.isAuthorityAcceptOrAuthering;
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加挂车驾驶证主页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
+        model.isEssential = true;
+        model.url = modelDetail.trailerDriving2Url;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        model.isHide =  ![self.modelVehicleType.subString containsString:@"牵引车"];
+        return model;
+    }(),^(){
+        ModelImage * model = [ModelImage new];
+        model.desc = @"添加挂车驾驶证副页";
+        model.image = [BaseImage imageWithImage:[UIImage imageNamed:@"camera_行驶证正"] url:nil];
+        model.isEssential = true;
+        model.url = modelDetail.trailerDriving3Url;
+        model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
+        model.isHide =  ![self.modelVehicleType.subString containsString:@"牵引车"];
         return model;
     }(),^(){
         ModelImage * model = [ModelImage new];
@@ -937,6 +976,9 @@
         model.imageType = ENUM_UP_IMAGE_TYPE_COMPANY_CAR;
         return model;
     }()]];
+    
+    self.tableView.tableFooterView = self.bottomView;
+
 }
 #pragma mark exchange type
 + (NSString *)exchangeVehicleType:(NSString *)identity{

@@ -110,6 +110,8 @@
                       entId:(double)entId
    driverId:(double)driverId
 driverPhone:(NSString *)driverPhone
+         trailerDriving2Url:(NSString *)trailerDriving2Url
+         trailerDriving3Url:(NSString *)trailerDriving3Url
                 delegate:(id <RequestDelegate>)delegate
                 success:(void (^)(NSDictionary * response, id mark))success
                 failure:(void (^)(NSString * errorStr, id mark))failure{
@@ -151,6 +153,8 @@ driverPhone:(NSString *)driverPhone
                               @"vehicleLength":@0,
                               @"driverId":NSNumber.dou(driverId),
                               @"driverPhone":RequestStrKey(driverPhone),
+                              @"trailerDriving2Url":RequestStrKey(trailerDriving2Url),
+                              @"trailerDriving3Url":RequestStrKey(trailerDriving3Url),
 
         };
         if(identity){

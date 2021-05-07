@@ -90,6 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
 entId:(double)entId
    driverId:(double)driverId
 driverPhone:(NSString *)driverPhone
+         trailerDriving2Url:(NSString *)trailerDriving2Url
+         trailerDriving3Url:(NSString *)trailerDriving3Url
                 delegate:(id <RequestDelegate>)delegate
                 success:(void (^)(NSDictionary * response, id mark))success
                     failure:(void (^)(NSString * errorStr, id mark))failure;

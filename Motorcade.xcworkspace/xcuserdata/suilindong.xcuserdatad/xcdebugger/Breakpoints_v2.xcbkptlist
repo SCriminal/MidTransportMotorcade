@@ -14,8 +14,8 @@
             filePath = "&#x4e50;&#x9500;/Scenes/Mine/&#x8f66;&#x8f86;&#x7ba1;&#x7406;/AddCarVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "-modelLicenseType"
             landmarkType = "7">
          </BreakpointContent>
@@ -97,6 +97,38 @@
             startingLineNumber = "199"
             endingLineNumber = "199"
             landmarkName = "-resetViewWithAryModels:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B3C74039-9819-452D-989F-D7EE42FCF76A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x9500;/Scenes/Mine/&#x8f66;&#x8f86;&#x7ba1;&#x7406;/AddCarVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "869"
+            endingLineNumber = "869"
+            landmarkName = "-refreshTrail"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9AD6769A-35E6-4E37-A9E9-066848161CAB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x4e50;&#x9500;/Scenes/&#x767b;&#x5f55;&#x6ce8;&#x518c;/&#x5b8c;&#x5584;&#x4fe1;&#x606f;/AuthorityImageView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "-refresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

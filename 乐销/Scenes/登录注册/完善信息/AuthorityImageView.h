@@ -14,6 +14,7 @@
 
 #pragma mark 刷新view
 - (void)resetViewWithAryModels:(NSArray *)aryModels;
+- (void)refresh;
 @end
 
 

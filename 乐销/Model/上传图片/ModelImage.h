@@ -23,6 +23,8 @@
 @property (nonatomic,strong) BaseImage * image;
 @property (nonatomic, assign) BOOL isEssential;
 @property (nonatomic, assign) BOOL isChangeInvalid;
+@property (nonatomic, assign) BOOL isHide;
+
 @property (nonatomic, assign) ENUM_UP_IMAGE_TYPE imageType;
 @property (nonatomic, assign) NSUInteger cameraType;
 @property (nonatomic, strong) void (^blockUpSuccess)(ModelImage *);

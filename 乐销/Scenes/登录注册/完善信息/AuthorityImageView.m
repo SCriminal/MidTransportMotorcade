@@ -23,6 +23,9 @@
     return _aryDatas;
 }
 #pragma mark 刷新view
+- (void)refresh{
+    [self resetViewWithAryModels:self.aryDatas.copy];
+}
 - (void)resetViewWithAryModels:(NSArray *)aryModels{
     [self removeAllSubViews];
     //重置视图坐标
@@ -32,7 +35,9 @@
     for (int i = 0;i<aryModels.count;i++) {
         ModelImage * modelItem = aryModels[i];
         [self.aryDatas addObject:modelItem];
-        
+        if (modelItem.isHide) {
+            continue;
+        }
         AuthorityImageItemView * view = [AuthorityImageItemView new];
         [view resetViewWithModel:modelItem];
         if (i%2==0) {
@@ -49,7 +54,9 @@
     }
     
     //设置总高度
-    self.height = bottom+W(20);}
+    self.height = bottom+W(20);
+    
+}
 
 #pragma mark 初始化
 - (instancetype)initWithFrame:(CGRect)frame{
