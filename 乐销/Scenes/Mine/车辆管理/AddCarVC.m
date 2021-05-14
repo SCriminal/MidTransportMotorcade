@@ -270,31 +270,31 @@
     if (!_modelHangCode) {
         _modelHangCode = ^(){
             ModelBaseData * model = [ModelBaseData new];
-            model.enumType = ENUM_PERFECT_CELL_SELECT;
+            model.enumType = ENUM_PERFECT_CELL_TEXT;
             model.imageName = @"";
             model.string = @"挂车号码";
             model.placeHolderString = @"输入挂车号码";
-            WEAKSELF
-            model.blocClick = ^(ModelBaseData *item) {
-                [GlobalMethod endEditing];
-                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
-                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelHangCode.string]) {
-                        CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];
-                        if (CGRectGetMinY(rectOrigin)>SCREEN_HEIGHT/2.0) {
-                            [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
-                        }
-                        break;
-                    }
-                }
-                
-                SelectCarNumberView * selectNumView = [SelectCarNumberView new];
-                [selectNumView resetViewWithContent:weakSelf.modelHangCode.subString];
-                [weakSelf.view addSubview:selectNumView];
-                selectNumView.blockSelected = ^(NSString *str) {
-                    weakSelf.modelHangCode.subString = str;
-                    [weakSelf.tableView reloadData];
-                };
-            };
+//            WEAKSELF
+//            model.blocClick = ^(ModelBaseData *item) {
+//                [GlobalMethod endEditing];
+//                for (PerfectSelectCell * cell in weakSelf.tableView.visibleCells) {
+//                    if ([cell isKindOfClass:[PerfectSelectCell class]] && [cell.model.string isEqualToString: weakSelf.modelHangCode.string]) {
+//                        CGRect rectOrigin = [cell convertRect:cell.frame toView:[UIApplication sharedApplication].keyWindow];
+//                        if (CGRectGetMinY(rectOrigin)>SCREEN_HEIGHT/2.0) {
+//                            [weakSelf.tableView setContentOffset:CGPointMake(0, cell.top) animated:true];
+//                        }
+//                        break;
+//                    }
+//                }
+//
+//                SelectCarNumberView * selectNumView = [SelectCarNumberView new];
+//                [selectNumView resetViewWithContent:weakSelf.modelHangCode.subString];
+//                [weakSelf.view addSubview:selectNumView];
+//                selectNumView.blockSelected = ^(NSString *str) {
+//                    weakSelf.modelHangCode.subString = str;
+//                    [weakSelf.tableView reloadData];
+//                };
+//            };
             return model;
         }();
     }
@@ -622,6 +622,7 @@
 
 #pragma mark config data
 - (void)configData{
+    self.modelHangCode.isRequired = [self.modelVehicleType.subString containsString:@"牵引车"];
     self.aryDatas = @[self.modelUnbindDriver,self.modelCarNum,self.modelOwner,self.modelVehicleType,self.modelVehicleLoad,self.modelLicenseType,self.modelDrivingNumber,self.modelAllQuality,self.modelAxle,self.modelHangCode,self.modelEngineCode,self.modelCarIdentityCode,self.modelDriver,self.modelDriverPhone,self.modelVehicleLength,self.modelVehicleWidth,self.modelVehicleHeight,self.modelCarModel,self.modelUsage,self.modelEnergyType,self.modelRoadTransportNum,self.modelAgency,self.modelDrivingResignDate,self.modelDrivingIssueDate,self.modelDrivingEndDate,^(){
         ModelBaseData * model = [ModelBaseData new];
         model.enumType = ENUM_PERFECT_CELL_EMPTY;
@@ -865,6 +866,8 @@
     }];
 }
 - (void)refreshTrail{
+    self.modelHangCode.isRequired = [self.modelVehicleType.subString containsString:@"牵引车"];
+
     if (self.bottomView.aryDatas.count >6) {
         ModelImage * m0 = self.bottomView.aryDatas[4];
         m0.isHide =  ![self.modelVehicleType.subString containsString:@"牵引车"];

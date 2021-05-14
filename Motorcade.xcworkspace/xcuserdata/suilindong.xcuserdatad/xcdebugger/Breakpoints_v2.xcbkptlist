@@ -110,8 +110,8 @@
             filePath = "&#x4e50;&#x9500;/Scenes/Mine/&#x8f66;&#x8f86;&#x7ba1;&#x7406;/AddCarVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "869"
-            endingLineNumber = "869"
+            startingLineNumber = "872"
+            endingLineNumber = "872"
             landmarkName = "-refreshTrail"
             landmarkType = "7">
          </BreakpointContent>
