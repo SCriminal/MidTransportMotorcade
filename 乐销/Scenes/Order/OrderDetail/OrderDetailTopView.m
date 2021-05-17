@@ -84,6 +84,17 @@
     }
     return _labelShipNumber;
 }
+- (UILabel *)labelZhongcheyun{
+    if (_labelZhongcheyun == nil) {
+        _labelZhongcheyun = [UILabel new];
+        _labelZhongcheyun.textColor = COLOR_666;
+        _labelZhongcheyun.font =  [UIFont systemFontOfSize:F(15) weight:UIFontWeightRegular];
+        _labelZhongcheyun.numberOfLines = 0;
+        _labelZhongcheyun.lineSpace = 0;
+    }
+    return _labelZhongcheyun;
+}
+
 - (UIImageView *)ivBg{
     if (_ivBg == nil) {
         _ivBg = [UIImageView new];
@@ -114,7 +125,8 @@
     [self addSubview:self.labelShipCompanyName];
     [self addSubview:self.labelShipName];
     [self addSubview:self.labelShipNumber];
-    
+    [self addSubview:self.labelZhongcheyun];
+
     //初始化页面
     [self resetViewWithModel:nil];
 }
@@ -147,8 +159,11 @@
     [self.labelShipNumber fitTitle:[NSString stringWithFormat: @"航      次：%@",UnPackStr(model.voyageNumber)] variable:SCREEN_WIDTH - W(50)];
     self.labelShipNumber.leftTop = XY(W(25),self.labelShipName.bottom+W(20));
 
+    [self.labelZhongcheyun fitTitle:@"托  运 方：中车运" variable:SCREEN_WIDTH - W(50)];
+    self.labelZhongcheyun.leftTop = XY(W(25),self.labelShipNumber.bottom+W(20));
+
     //设置总高度
-    self.height = self.labelShipNumber.bottom+W(20);
+    self.height = self.labelZhongcheyun.bottom+W(20);
     self.ivBg.frame = CGRectMake(0, -W(10), SCREEN_WIDTH, self.height + W(20));
 }
 

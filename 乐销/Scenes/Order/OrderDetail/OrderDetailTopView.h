@@ -17,6 +17,7 @@
 @property (strong, nonatomic) UILabel *labelShipCompanyName;
 @property (strong, nonatomic) UILabel *labelShipName;
 @property (strong, nonatomic) UILabel *labelShipNumber;
+@property (strong, nonatomic) UILabel *labelZhongcheyun;
 
 @property (strong, nonatomic) UIImageView *ivBg;
 @property (nonatomic, strong) ModelOrderList *model;
